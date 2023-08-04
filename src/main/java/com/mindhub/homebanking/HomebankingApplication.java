@@ -1,6 +1,7 @@
 package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +20,8 @@ public class HomebankingApplication {
 			clientRepository.save(client1);
             Client client2 = new Client("Susana", "Guerrero","sguerrero@mindhub.com");
 			clientRepository.save(client2);
+			Client client3 = new Client("Daniel", "Estebez","daniestebez@mindhub.com");
+			clientRepository.save(client3);
 		};
-
 	}
 }
