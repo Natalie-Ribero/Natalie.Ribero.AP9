@@ -28,6 +28,10 @@ public class Client {
         email = emailClient;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
