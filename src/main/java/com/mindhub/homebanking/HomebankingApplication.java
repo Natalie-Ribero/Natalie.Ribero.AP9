@@ -31,7 +31,14 @@ public class HomebankingApplication {
 			LocalDate tomorrow = today.plusDays(1);
 
 			Account account1 = new Account("VIN001",today,5000);
+			client1.addAccount(account1);
+			Account account2 = new Account("VIN001",tomorrow,7500);
+			client1.addAccount(account2);
 			accountRepository.save(account1);
+			accountRepository.save(account2);
+
+
+			
 		};
 	}
 }
