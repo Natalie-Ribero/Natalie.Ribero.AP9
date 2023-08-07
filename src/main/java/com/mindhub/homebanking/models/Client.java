@@ -15,8 +15,6 @@ public class Client {
 
     @OneToMany(fetch = FetchType.EAGER)
     Set<Account> accounts = new HashSet<>();
-
-
     private long id;
     private String firstName;
     private String lastName;
@@ -59,6 +57,9 @@ public class Client {
         this.email = email;
     }
 
+    public Set<Account> getAccounts() {
+        return accounts;
+    }
     public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
     }
