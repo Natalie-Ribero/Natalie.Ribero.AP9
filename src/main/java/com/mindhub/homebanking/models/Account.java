@@ -2,30 +2,22 @@ package com.mindhub.homebanking.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.time.LocalDate;
-
 @Entity
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="client_id")
-    private Person client;
-
     private long id;
     private String number;
     private LocalDate creationDate;
     private double balance;
+
     public Account() {}
 
     public Account(String number, LocalDate creationDate, double balance) {
@@ -50,15 +42,15 @@ public class Account {
         return balance;
     }
 
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public void setBalance(double balance) {
         this.balance = balance;
-    }
-
-    public Person getClient() {
-        return client;
-    }
-
-    public void setClient(Person client) {
-        this.client = client;
     }
 }
