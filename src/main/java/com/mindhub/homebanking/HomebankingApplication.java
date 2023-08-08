@@ -26,12 +26,12 @@ public class HomebankingApplication {
 			clientRepository.save(client2);
 
 
-			LocalDate today = LocalDate.now();
-			LocalDate tomorrow = today.plusDays(1);
+		//	LocalDate today = LocalDate.now();
+		//	LocalDate tomorrow = today.plusDays(1);
 
-			Account account1 = new Account("VIN001",today,5000);
+			Account account1 = new Account("VIN001",LocalDate.now(),5000);
 			client1.addAccount(account1);
-			Account account2 = new Account("VIN001",tomorrow,7500);
+			Account account2 = new Account("VIN002",LocalDate.now().plusDays(1),7500);
 			client1.addAccount(account2);
 			accountRepository.save(account1);
 			accountRepository.save(account2);
