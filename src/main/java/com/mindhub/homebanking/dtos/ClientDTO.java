@@ -5,6 +5,7 @@ import com.mindhub.homebanking.models.Client;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ClientDTO {
     private long id;
@@ -18,8 +19,12 @@ public class ClientDTO {
         this.firstName = client.getFirstName();
         this.lastName = client.getLastName();
         this.email = client.getEmail();
+        this.accounts = client
+                .getAccounts()
+                .stream()
+                .map(account -> new AccountDTO(account))
+                .collect(Collectors.toSet());
     }
-
     public long getId() {
         return id;
     }
