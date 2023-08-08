@@ -9,7 +9,10 @@ public class ClientDTO {
     private String email;
 
     public ClientDTO(Client client){
-
+        this.id = client.getId();
+        this.firstName = client.getFirstName();
+        this.lastName = client.getLastName();
+        this.email = client.getEmail();
     }
 
     public void setId(long id) {
