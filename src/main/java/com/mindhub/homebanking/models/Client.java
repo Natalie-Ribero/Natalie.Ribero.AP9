@@ -12,10 +12,12 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
+    private long id;
+
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     Set<Account> accounts = new HashSet<>();
-    private long id;
+
     private String firstName;
     private String lastName;
     private String email;
