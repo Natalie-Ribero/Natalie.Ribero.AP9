@@ -60,6 +60,7 @@ public class Client {
         this.email = email;
     }
 
+
     public Set<Account> getAccounts() {
         return accounts;
     }
