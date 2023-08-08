@@ -16,7 +16,6 @@ public class Account {
     @JoinColumn(name="client_id")
     private Client owner;
 
-
     private String number;
     private LocalDate creationDate;
     private double balance;
