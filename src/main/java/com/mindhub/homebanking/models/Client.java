@@ -13,7 +13,7 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="owner", fetch=FetchType.EAGER)
     Set<Account> accounts = new HashSet<>();
     private long id;
     private String firstName;
