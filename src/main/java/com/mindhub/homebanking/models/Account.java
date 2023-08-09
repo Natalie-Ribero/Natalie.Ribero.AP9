@@ -69,4 +69,9 @@ public class Account {
     public void setOwner(Client owner) {
         this.owner = owner;
     }
+
+    public void addTransaction(Transaction transaction) {
+        transaction.setAccountOwner(this);
+        transactions.add(transaction);
+    }
 }
