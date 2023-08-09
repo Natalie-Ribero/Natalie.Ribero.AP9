@@ -15,6 +15,7 @@ public class Transaction {
     @JoinColumn(name="acount_id")
     private Account acountOwner;
 
+    private TransactionType type;
     private String description;
     private LocalDate date;
     private Double amount;
