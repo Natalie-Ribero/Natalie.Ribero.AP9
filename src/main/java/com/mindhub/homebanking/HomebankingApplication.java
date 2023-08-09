@@ -36,8 +36,8 @@ public class HomebankingApplication {
             Transaction transaction3 = new Transaction(account3, TransactionType.CREDIT, 2000.00, "salario", LocalDate.now());
 
             account1.addTransaction(transaction1);
-            account2.addTransaction(transaction2);
-            account3.addTransaction(transaction3);
+            account1.addTransaction(transaction2);
+            account1.addTransaction(transaction3);
 
             client1.addAccount(account1);
             client1.addAccount(account2);
