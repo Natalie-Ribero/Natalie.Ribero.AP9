@@ -1,8 +1,11 @@
 package com.mindhub.homebanking.dtos;
 
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.Transaction;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class AccountDTO {
@@ -10,6 +13,7 @@ public class AccountDTO {
     private String number;
     private LocalDate creationDate;
     private double balance;
+    Set<TransactionDTO> transactionsDTO = new HashSet<>();
 
     public AccountDTO(Account account) {
         this.id = account.getId();
