@@ -1,6 +1,5 @@
 package com.mindhub.homebanking.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -19,7 +18,7 @@ public class Account {
     @JoinColumn(name="client_id")
     private Client owner;
 
-    @OneToMany(mappedBy = "acountOwner", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     Set<Transaction> transactions = new HashSet<>();
 
     private String number;
@@ -71,7 +70,7 @@ public class Account {
     }
 
     public void addTransaction(Transaction transaction) {
-        transaction.setAccountOwner(this);
+        transaction.setAccount(this);
         transactions.add(transaction);
     }
 }
