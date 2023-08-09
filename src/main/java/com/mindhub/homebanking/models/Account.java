@@ -5,6 +5,9 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class Account {
     @Id
@@ -15,6 +18,9 @@ public class Account {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
     private Client owner;
+
+    @OneToMany(mappedBy = "acountOwner", fetch = FetchType.EAGER)
+    Set<Transaction> transactions = new HashSet<>();
 
     private String number;
     private LocalDate creationDate;
