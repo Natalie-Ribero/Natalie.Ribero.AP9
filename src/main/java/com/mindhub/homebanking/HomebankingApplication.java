@@ -31,6 +31,15 @@ public class HomebankingApplication {
             Transaction transaction2 = new Transaction(account2, TransactionType.DEBIT, -52000.00, "Pago hipoteca", LocalDate.now());
             Transaction transaction3 = new Transaction(account3, TransactionType.CREDIT, 2000.00, "salario", LocalDate.now());
 
+            Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
+            Loan loan2 = new Loan("Personal", 100000, List.of(6, 12, 24));
+            Loan loan3 = new Loan("Automotriz", 300000, List.of(6, 12, 24, 36));
+
+            ClientLoan clientLoan1 = new ClientLoan(client1, loan1, 60, 400000);
+            ClientLoan clientLoan2 = new ClientLoan(client1, loan2, 12, 50000);
+            ClientLoan clientLoan3 = new ClientLoan(client2, loan2, 24, 100000);
+            ClientLoan clientLoan4 = new ClientLoan(client2, loan3, 36, 200000);
+
             account1.addTransaction(transaction1);
             account1.addTransaction(transaction2);
             account3.addTransaction(transaction3);
@@ -39,9 +48,18 @@ public class HomebankingApplication {
             client1.addAccount(account2);
             client2.addAccount(account3);
 
+            client1.addLoan(clientLoan1);
+            client1.addLoan(clientLoan2);
+            client2.addLoan(clientLoan3);
+            client2.addLoan(clientLoan4);
+
+            loan1.addClient(clientLoan1);
+            loan2.addClient(clientLoan2);
+            loan2.addClient(clientLoan3);
+            loan3.addClient(clientLoan4);
+
             clientRepository.save(client1);
             clientRepository.save(client2);
-
 
             accountRepository.save(account1);
             accountRepository.save(account2);
@@ -51,19 +69,10 @@ public class HomebankingApplication {
             transactionRepository.save(transaction1);
             transactionRepository.save(transaction2);
 
-            Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
-            Loan loan2 = new Loan("Personal", 100000, List.of(6, 12, 24));
-            Loan loan3 = new Loan("Automotriz", 300000, List.of(6, 12, 24, 36));
-
             loanRepository.save(loan1);
             loanRepository.save(loan2);
             loanRepository.save(loan3);
-
-            ClientLoan clientLoan1 = new ClientLoan(client1, loan1, 60, 400000);
-            ClientLoan clientLoan2 = new ClientLoan(client1, loan2, 12, 50000);
-            ClientLoan clientLoan3 = new ClientLoan(client2, loan2, 24, 100000);
-            ClientLoan clientLoan4 = new ClientLoan(client2, loan3, 36, 200000);
-
+            
             clientLoanRepository.save(clientLoan1);
             clientLoanRepository.save(clientLoan2);
             clientLoanRepository.save(clientLoan3);

@@ -63,4 +63,8 @@ public class Loan {
         return clients;
     }
 
+    public void addClient(ClientLoan clientLoan) {
+        clientLoan.setLoan(this);
+        clients.add(clientLoan);
+    }
 }
