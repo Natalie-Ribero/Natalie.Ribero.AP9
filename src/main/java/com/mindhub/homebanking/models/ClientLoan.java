@@ -19,12 +19,12 @@ public class ClientLoan {
     @JoinColumn(name="loan_id")
     private Loan loan;
 
-    private String payments;
+    private int payments;
     private int amount;
 
     public ClientLoan() {}
 
-    public ClientLoan(Client client, Loan loan, String payments, int amount) {
+    public ClientLoan(Client client, Loan loan, int payments, int amount) {
         this.client = client;
         this.loan = loan;
         this.payments = payments;
@@ -39,11 +39,11 @@ public class ClientLoan {
         this.client = client;
     }
 
-    public String getPayments() {
+    public int getPayments() {
         return payments;
     }
 
-    public void setPayments(String payments) {
+    public void setPayments(int payments) {
         this.payments = payments;
     }
 
