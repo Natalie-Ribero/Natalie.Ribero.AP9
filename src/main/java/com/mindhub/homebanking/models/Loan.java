@@ -13,14 +13,14 @@ public class Loan {
     private long id;
 
     private String name;
-    private Double maxAmount;
+    private int maxAmount;
 
     @ElementCollection
-    private List<String> payments;
+    private List<Integer> payments;
 
     public Loan() {}
 
-    public Loan(String name, Double maxAmount, List<String> payments) {
+    public Loan(String name, int maxAmount, List<Integer> payments) {
         this.name = name;
         this.maxAmount = maxAmount;
         this.payments = payments;
@@ -38,19 +38,19 @@ public class Loan {
         this.name = name;
     }
 
-    public Double getMaxAmount() {
+    public int getMaxAmount() {
         return maxAmount;
     }
 
-    public void setMaxAmount(Double maxAmount) {
+    public void setMaxAmount(int maxAmount) {
         this.maxAmount = maxAmount;
     }
 
-    public List<String> getPayments() {
+    public List<Integer> getPayments() {
         return payments;
     }
 
-    public void setPayments(List<String> payments) {
+    public void setPayments(List<Integer> payments) {
         this.payments = payments;
     }
 }
