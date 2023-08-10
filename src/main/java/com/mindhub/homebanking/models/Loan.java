@@ -15,7 +15,7 @@ public class Loan {
     private long id;
 
     @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER)
-    Set<ClientLoan> clientsLoans = new HashSet<>();
+    Set<ClientLoan> clientLoans = new HashSet<>();
 
     private String name;
     private int maxAmount;
@@ -60,11 +60,11 @@ public class Loan {
     }
 
     public Set<ClientLoan> getClientsLoans() {
-        return clientsLoans;
+        return clientLoans;
     }
 
     public void addClient(ClientLoan clientLoan) {
         clientLoan.setLoan(this);
-        clientsLoans.add(clientLoan);
+        clientLoans.add(clientLoan);
     }
 }
