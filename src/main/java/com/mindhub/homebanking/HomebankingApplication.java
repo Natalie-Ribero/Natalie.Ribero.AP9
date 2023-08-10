@@ -72,7 +72,7 @@ public class HomebankingApplication {
             loanRepository.save(loan1);
             loanRepository.save(loan2);
             loanRepository.save(loan3);
-            
+
             clientLoanRepository.save(clientLoan1);
             clientLoanRepository.save(clientLoan2);
             clientLoanRepository.save(clientLoan3);
