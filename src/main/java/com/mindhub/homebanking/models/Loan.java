@@ -3,7 +3,9 @@ package com.mindhub.homebanking.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Loan {
@@ -11,6 +13,9 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
+
+    @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER)
+    Set<ClientLoan> clients = new HashSet<>();
 
     private String name;
     private int maxAmount;
@@ -53,4 +58,9 @@ public class Loan {
     public void setPayments(List<Integer> payments) {
         this.payments = payments;
     }
+
+    public Set<ClientLoan> getClients() {
+        return clients;
+    }
+
 }
