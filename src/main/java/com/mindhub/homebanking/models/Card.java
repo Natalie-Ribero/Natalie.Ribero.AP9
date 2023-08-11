@@ -22,7 +22,8 @@ public class Card {
     private LocalDate fromDate;
     private LocalDate thruDate;
 
-    public Card(){}
+    public Card() {
+    }
 
     public Card(String cardHolder, CardType type, CardColor color, String number, String cvv, LocalDate fromDate, LocalDate thruDate) {
         this.cardHolder = cardHolder;
@@ -42,52 +43,52 @@ public class Card {
         return cardHolder;
     }
 
-    public void setCardHolder(String cardHolder) {
-        this.cardHolder = cardHolder;
-    }
-
     public CardType getType() {
         return type;
-    }
-
-    public void setType(CardType type) {
-        this.type = type;
     }
 
     public CardColor getColor() {
         return color;
     }
 
-    public void setColor(CardColor color) {
-        this.color = color;
-    }
-
     public String getNumber() {
         return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public String getCvv() {
         return cvv;
     }
 
-    public void setCvv(String cvv) {
-        this.cvv = cvv;
-    }
-
     public LocalDate getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDate fromDate) {
-        this.fromDate = fromDate;
-    }
-
     public LocalDate getThruDate() {
         return thruDate;
+    }
+
+    public void setCardHolder(String cardHolder) {
+        this.cardHolder = cardHolder;
+    }
+
+    public void setType(CardType type) {
+        this.type = type;
+    }
+
+    public void setColor(CardColor color) {
+        this.color = color;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
+
+    public void setFromDate(LocalDate fromDate) {
+        this.fromDate = fromDate;
     }
 
     public void setThruDate(LocalDate thruDate) {
