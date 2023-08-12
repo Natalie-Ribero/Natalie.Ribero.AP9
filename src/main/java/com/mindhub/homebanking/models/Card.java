@@ -2,10 +2,7 @@ package com.mindhub.homebanking.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -14,6 +11,10 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="client_id")
+    private Client cardOwner;
     private String cardHolder;
     private CardType type;
     private CardColor color;
@@ -22,8 +23,7 @@ public class Card {
     private LocalDate fromDate;
     private LocalDate thruDate;
 
-    public Card() {
-    }
+    public Card() {}
 
     public Card(String cardHolder, CardType type, CardColor color, String number, String cvv, LocalDate fromDate, LocalDate thruDate) {
         this.cardHolder = cardHolder;
@@ -67,6 +67,10 @@ public class Card {
         return thruDate;
     }
 
+    public Client getCardOwner() {
+        return cardOwner;
+    }
+
     public void setCardHolder(String cardHolder) {
         this.cardHolder = cardHolder;
     }
@@ -93,5 +97,9 @@ public class Card {
 
     public void setThruDate(LocalDate thruDate) {
         this.thruDate = thruDate;
+    }
+
+    public void setCardOwner(Client cardOwner) {
+        this.cardOwner = cardOwner;
     }
 }
