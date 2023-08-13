@@ -53,7 +53,7 @@ public class HomebankingApplication {
                     LocalDate.now(), LocalDate.now().plusYears(5));
 
             account1.addTransaction(transaction1);
-            account1.addTransaction(transaction2);
+            account2.addTransaction(transaction2);
             account3.addTransaction(transaction3);
 
             client1.addAccount(account1);
