@@ -61,6 +61,11 @@ public class Client {
         return clientLoans;
     }
 
+    public Set<Card> getCards() {
+        return cards;
+    }
+
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -71,6 +76,18 @@ public class Client {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public void setClientLoans(Set<ClientLoan> clientLoans) {
+        this.clientLoans = clientLoans;
+    }
+
+    public void setCards(Set<Card> cards) {
+        this.cards = cards;
     }
 
     @Override
