@@ -15,13 +15,13 @@ public class Client {
 
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
-    Set<Account> accounts = new HashSet<>();
+    private Set<Account> accounts = new HashSet<>();
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
-    Set<ClientLoan> clientLoans = new HashSet<>();
+    private Set<ClientLoan> clientLoans = new HashSet<>();
 
     @OneToMany(mappedBy = "cardOwner", fetch = FetchType.EAGER)
-    Set<Card> cards = new HashSet<>();
+    private Set<Card> cards = new HashSet<>();
 
     private String firstName;
     private String lastName;
@@ -64,7 +64,6 @@ public class Client {
     public Set<Card> getCards() {
         return cards;
     }
-
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

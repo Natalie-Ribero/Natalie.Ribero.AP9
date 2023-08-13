@@ -35,35 +35,35 @@ public class ClientLoan {
         return client;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     public int getPayments() {
         return payments;
-    }
-
-    public void setPayments(int payments) {
-        this.payments = payments;
     }
 
     public int getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     public Loan getLoan() {
         return loan;
     }
 
-    public void setLoan(Loan loan) {
-        this.loan = loan;
-    }
-
     public long getId() {
         return id;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public void setPayments(int payments) {
+        this.payments = payments;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public void setLoan(Loan loan) {
+        this.loan = loan;
     }
 }
