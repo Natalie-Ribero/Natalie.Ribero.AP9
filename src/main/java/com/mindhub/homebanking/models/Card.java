@@ -120,12 +120,11 @@ public class Card {
         for (int i = 0; i < 4; i++) {
             int numberCard = random.nextInt(9000) + 1;
             createString.append(String.format("%04d", numberCard));
-            if (i < 3){
+            if (i < 3) {
                 createString.append("-");
             }
         }
-            return createString.toString();
-
+        return createString.toString();
     }
 
 }
