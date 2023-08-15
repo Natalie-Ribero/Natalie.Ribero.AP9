@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Random;
 
 @Entity
 public class Card {
@@ -103,4 +104,12 @@ public class Card {
     public void setCardOwner(Client cardOwner) {
         this.cardOwner = cardOwner;
     }
+
+    public static String createCvv(){
+        Random random = new Random();
+        int cvv = random.nextInt(900) + 100;
+
+        return String.valueOf(cvv);
+    }
+    
 }
