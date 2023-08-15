@@ -14,7 +14,7 @@ public class Card {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="client_id")
+    @JoinColumn(name = "client_id")
     private Client cardOwner;
 
     private String cardHolder;
@@ -25,9 +25,11 @@ public class Card {
     private LocalDate fromDate;
     private LocalDate thruDate;
 
-    public Card() {}
+    public Card() {
+    }
 
-    public Card(String cardHolder, CardType type, CardColor color, String number, String cvv, LocalDate fromDate, LocalDate thruDate) {
+    public Card(String cardHolder, CardType type, CardColor color, String number, String cvv, LocalDate fromDate,
+                LocalDate thruDate) {
         this.cardHolder = cardHolder;
         this.type = type;
         this.color = color;
@@ -105,11 +107,25 @@ public class Card {
         this.cardOwner = cardOwner;
     }
 
-    public static String createCvv(){
+    public static String createCvv() {
         Random random = new Random();
-        int cvv = random.nextInt(900) + 100;
-
-        return String.valueOf(cvv);
+        int cvv = random.nextInt(900) + 1;
+        return String.format("%03d", cvv);
     }
-    
+
+    public static String createNumberCard() {
+        Random random = new Random();
+        StringBuilder createString = new StringBuilder();
+
+        for (int i = 0; i < 4; i++) {
+            int numberCard = random.nextInt(9000) + 1;
+            createString.append(String.format("%04d", numberCard));
+            if (i < 3){
+                createString.append("-");
+            }
+        }
+            return createString.toString();
+
+    }
+
 }
