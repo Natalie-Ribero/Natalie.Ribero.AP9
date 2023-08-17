@@ -27,7 +27,6 @@ public class Client {
     private String lastName;
     private String email;
 
-
     public Client() {
     }
 
