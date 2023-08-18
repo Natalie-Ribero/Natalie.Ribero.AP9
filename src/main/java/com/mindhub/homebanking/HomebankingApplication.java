@@ -28,12 +28,13 @@ public class HomebankingApplication {
                                       ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
         return (args) -> {
             Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("MelbaMorel"));
-            Client client2 = new Client("Susana", "Guerrero", "sguerrero@mindhub.com", passwordEncoder.encode("SusanaGuerrero")
-                    );
+            Client client2 = new Client("Susana", "Guerrero", "sguerrero@mindhub.com", passwordEncoder.encode("SusanaGuerrero"));
+            Client client3 = new Client("Natalie", "Ribero", "natalie.ribero@hotmail.com", passwordEncoder.encode("ADMIN"));
 
             Account account1 = new Account("VIN001", LocalDate.now(), 5000);
             Account account2 = new Account("VIN002", LocalDate.now().plusDays(1), 7500);
             Account account3 = new Account("VIN003", LocalDate.now(), 8500);
+            Account account4 = new Account("VIN004", LocalDate.now(), 850000);
 
             Transaction transaction1 = new Transaction(account1, TransactionType.CREDIT, 5000.00, "ALQUILER",
                     LocalDate.now());
@@ -65,6 +66,7 @@ public class HomebankingApplication {
             client1.addAccount(account1);
             client1.addAccount(account2);
             client2.addAccount(account3);
+            client3.addAccount(account4);
 
             client1.addLoan(clientLoan1);
             client1.addLoan(clientLoan2);
@@ -82,10 +84,12 @@ public class HomebankingApplication {
 
             clientRepository.save(client1);
             clientRepository.save(client2);
+            clientRepository.save(client3);
 
             accountRepository.save(account1);
             accountRepository.save(account2);
             accountRepository.save(account3);
+            accountRepository.save(account4);
 
             transactionRepository.save(transaction3);
             transactionRepository.save(transaction1);
