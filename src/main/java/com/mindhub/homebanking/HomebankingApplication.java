@@ -22,8 +22,8 @@ public class HomebankingApplication {
                                       TransactionRepository transactionRepository, LoanRepository loanRepository,
                                       ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
         return (args) -> {
-            Client client1 = new Client("Melba", "Morel", "melba@mindhub.com");
-            Client client2 = new Client("Susana", "Guerrero", "sguerrero@mindhub.com");
+            Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", "MelbaMorel");
+            Client client2 = new Client("Susana", "Guerrero", "sguerrero@mindhub.com", "SusanaGuerrero");
 
             Account account1 = new Account("VIN001", LocalDate.now(), 5000);
             Account account2 = new Account("VIN002", LocalDate.now().plusDays(1), 7500);
