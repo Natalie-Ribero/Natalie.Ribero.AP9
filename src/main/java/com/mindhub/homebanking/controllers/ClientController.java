@@ -32,4 +32,9 @@ public class ClientController {
     public ClientDTO getClientsById(@PathVariable Long id){
         return new ClientDTO(clientRepository.findById(id).get());
     }
+
+    @GetMapping("/clients/current")
+    public ClientDTO getCurrentClient(){
+        return null; //todo: Implementar Funcion que muestre los datos del cliente autenticado
+    }
 }
