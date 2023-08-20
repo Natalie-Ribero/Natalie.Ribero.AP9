@@ -6,11 +6,11 @@ import com.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,7 +40,7 @@ public class ClientController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @RequestMapping(path = "/api/clients", method = RequestMethod.POST)
+    @RequestMapping(path = "/clients", method = RequestMethod.POST)
 
     public ResponseEntity<Object> register(
 
@@ -58,5 +58,13 @@ public class ClientController {
         clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
         return new ResponseEntity<>(HttpStatus.CREATED);
 
+    }
+
+    @Autowired
+    private Authentication authentication;
+
+    @RequestMapping(path = "/clients/current")
+    public ClientDTO getClientByEmail(Authentication authentication){
+        return new ClientDTO(clientRepository.findByEmail(authentication.getName()));
     }
 }
