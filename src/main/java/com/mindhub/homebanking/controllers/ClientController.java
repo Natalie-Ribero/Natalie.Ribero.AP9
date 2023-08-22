@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,10 +34,6 @@ public class ClientController {
         return new ClientDTO(clientRepository.findById(id).get());
     }
 
-    @GetMapping("/clients/current")
-    public ClientDTO getCurrentClient(){
-        return null; //todo: Implementar Funcion que muestre los datos del cliente autenticado
-    }
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -60,8 +57,6 @@ public class ClientController {
 
     }
 
-    @Autowired
-    private Authentication authentication;
 
     @RequestMapping(path = "/clients/current")
     public ClientDTO getClientByEmail(Authentication authentication){
