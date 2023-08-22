@@ -19,7 +19,7 @@ public class Account {
     private Client owner;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-    Set<Transaction> transactions = new HashSet<>();
+    private Set<Transaction> transactions = new HashSet<>();
 
     private String number;
     private LocalDate creationDate;
@@ -49,6 +49,14 @@ public class Account {
         return balance;
     }
 
+    public Client getOwner() {
+        return owner;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
     public void setNumber(String number) {
         this.number = number;
     }
@@ -61,24 +69,16 @@ public class Account {
         this.balance = balance;
     }
 
-    public Client getOwner() {
-        return owner;
-    }
-
     public void setOwner(Client owner) {
         this.owner = owner;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
     public void addTransaction(Transaction transaction) {
         transaction.setAccount(this);
         transactions.add(transaction);
-    }
-
-    public Set<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(Set<Transaction> transactions) {
-        this.transactions = transactions;
     }
 }

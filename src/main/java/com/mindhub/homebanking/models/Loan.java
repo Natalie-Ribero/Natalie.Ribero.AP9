@@ -15,7 +15,7 @@ public class Loan {
     private long id;
 
     @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER)
-    Set<ClientLoan> clientLoans = new HashSet<>();
+    private Set<ClientLoan> clientLoans = new HashSet<>();
 
     private String name;
     private int maxAmount;
@@ -39,28 +39,28 @@ public class Loan {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getMaxAmount() {
         return maxAmount;
-    }
-
-    public void setMaxAmount(int maxAmount) {
-        this.maxAmount = maxAmount;
     }
 
     public List<Integer> getPayments() {
         return payments;
     }
 
-    public void setPayments(List<Integer> payments) {
-        this.payments = payments;
-    }
-
     public Set<ClientLoan> getClientsLoans() {
         return clientLoans;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMaxAmount(int maxAmount) {
+        this.maxAmount = maxAmount;
+    }
+
+    public void setPayments(List<Integer> payments) {
+        this.payments = payments;
     }
 
     public void addClient(ClientLoan clientLoan) {

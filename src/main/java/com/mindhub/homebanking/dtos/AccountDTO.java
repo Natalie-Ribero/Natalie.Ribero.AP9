@@ -25,7 +25,6 @@ public class AccountDTO {
                 .stream()
                 .map(transaction -> new TransactionDTO(transaction))
                 .collect(Collectors.toSet());
-
     }
 
     public long getId() {
