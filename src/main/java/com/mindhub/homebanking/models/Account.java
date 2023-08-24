@@ -87,7 +87,7 @@ public class Account {
         Random random = new Random();
         StringBuilder createString = new StringBuilder();
         createString.append("VIN-");
-            int numberAccount = random.nextInt(9000) + 1;
+            int numberAccount = random.nextInt(90000000) + 1;
             createString.append(String.format("%08d", numberAccount));
         return createString.toString();
     }

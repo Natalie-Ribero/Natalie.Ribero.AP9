@@ -36,11 +36,11 @@ public class HomebankingApplication {
             Account account3 = new Account(Account.createNumberAccount(), LocalDate.now(), 8500);
             Account account4 = new Account(Account.createNumberAccount(), LocalDate.now(), 850000);
 
-            Transaction transaction1 = new Transaction(account1, TransactionType.CREDIT, 5000.00, "ALQUILER",
+            Transaction transaction1 = new Transaction(TransactionType.CREDIT, 5000.00, "ALQUILER",
                     LocalDate.now());
-            Transaction transaction2 = new Transaction(account2, TransactionType.DEBIT, -52000.00, "Pago hipoteca",
+            Transaction transaction2 = new Transaction(TransactionType.DEBIT, -52000.00, "Pago hipoteca",
                     LocalDate.now());
-            Transaction transaction3 = new Transaction(account3, TransactionType.CREDIT, 2000.00, "salario",
+            Transaction transaction3 = new Transaction(TransactionType.CREDIT, 2000.00, "salario",
                     LocalDate.now());
 
             Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
@@ -62,6 +62,10 @@ public class HomebankingApplication {
             account1.addTransaction(transaction1);
             account2.addTransaction(transaction2);
             account3.addTransaction(transaction3);
+
+            transaction1.addAccount(account1);
+            transaction2.addAccount(account2);
+            transaction3.addAccount(account3);
 
             client1.addAccount(account1);
             client1.addAccount(account2);

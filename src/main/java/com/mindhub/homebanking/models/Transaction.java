@@ -22,8 +22,7 @@ public class Transaction {
 
     public Transaction(){}
 
-    public Transaction(Account account, TransactionType type, Double amount, String description, LocalDate date) {
-        this.account = account;
+    public Transaction(TransactionType type, Double amount, String description, LocalDate date) {
         this.type = type;
         this.amount = amount;
         this.description = description;
@@ -72,5 +71,9 @@ public class Transaction {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void addAccount(Account accountOwner) {
+        account = accountOwner;
     }
 }
