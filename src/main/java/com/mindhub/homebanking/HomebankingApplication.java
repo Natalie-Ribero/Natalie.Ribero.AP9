@@ -31,10 +31,10 @@ public class HomebankingApplication {
             Client client2 = new Client("Susana", "Guerrero", "sguerrero@mindhub.com", passwordEncoder.encode("SusanaGuerrero"));
             Client client3 = new Client("Natalie", "Ribero", "natalie.ribero@hotmail.com", passwordEncoder.encode("ADMIN"));
 
-            Account account1 = new Account("VIN001", LocalDate.now(), 5000);
-            Account account2 = new Account("VIN002", LocalDate.now().plusDays(1), 7500);
-            Account account3 = new Account("VIN003", LocalDate.now(), 8500);
-            Account account4 = new Account("VIN004", LocalDate.now(), 850000);
+            Account account1 = new Account(Account.createNumberAccount(), LocalDate.now(), 5000);
+            Account account2 = new Account(Account.createNumberAccount(), LocalDate.now().plusDays(1), 7500);
+            Account account3 = new Account(Account.createNumberAccount(), LocalDate.now(), 8500);
+            Account account4 = new Account(Account.createNumberAccount(), LocalDate.now(), 850000);
 
             Transaction transaction1 = new Transaction(account1, TransactionType.CREDIT, 5000.00, "ALQUILER",
                     LocalDate.now());
