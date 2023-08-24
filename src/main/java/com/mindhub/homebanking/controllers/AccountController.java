@@ -35,4 +35,9 @@ public class AccountController {
         return new AccountDTO(account.get());
     }
 
+    @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
+
+    public ResponseEntity<Object> addAccount() {
+        accountRepository.save(new Account(Account.createNumberAccount(), LocalDate.now(),0.00));
+    }
 }
