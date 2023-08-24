@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 @Entity
@@ -80,5 +81,14 @@ public class Account {
     public void addTransaction(Transaction transaction) {
         transaction.setAccount(this);
         transactions.add(transaction);
+    }
+
+    public static String createNumberAccount() {
+        Random random = new Random();
+        StringBuilder createString = new StringBuilder();
+        createString.append("VIN-");
+            int numberAccount = random.nextInt(9000) + 1;
+            createString.append(String.format("%08d", numberAccount));
+        return createString.toString();
     }
 }
