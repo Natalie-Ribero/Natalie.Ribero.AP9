@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.dtos.ClientDTO;
+import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,7 +59,12 @@ public class ClientController {
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
         }
 
-        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+        Account account = new Account(Account.createNumberAccount(), LocalDate.now(),0.00);
+        accountRepository.save(account);
+        Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
+        client.addAccount(account);
+        clientRepository.save(client);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
 
 

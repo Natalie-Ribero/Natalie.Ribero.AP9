@@ -39,5 +39,6 @@ public class AccountController {
 
     public ResponseEntity<Object> addAccount() {
         accountRepository.save(new Account(Account.createNumberAccount(), LocalDate.now(),0.00));
+        return null;
     }
 }
