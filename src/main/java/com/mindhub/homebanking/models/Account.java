@@ -84,7 +84,7 @@ public class Account {
     }
 
     public static String createNumberAccount() {
-        
+        //todo: verificar que el numero de cuenta no este repetido
         Random random = new Random();
         StringBuilder createString = new StringBuilder();
         createString.append("VIN-");

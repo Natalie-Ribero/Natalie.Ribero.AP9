@@ -41,6 +41,8 @@ public class CardController {
         switch (cardType) {
             case CREDIT:
                 if (creditCards.size() < 3) {
+                    //todo:Crear una funcion  que cree la tarjeta y tome como parametro el tipo para no repetir lo mismo.
+                    //todo: solo pueden haber 3 tarjetas de cada tipo y una de cada color.
                     Card card = new Card(clientAuthentication.toString(), CardType.CREDIT, cardColor,
                             Card.createNumberCard(),
                             Card.createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));

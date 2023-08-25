@@ -114,6 +114,7 @@ public class Card {
     }
 
     public static String createNumberCard() {
+        //todo: verificar que el numero de tarjeta no este repetido
         Random random = new Random();
         StringBuilder createString = new StringBuilder();
 
