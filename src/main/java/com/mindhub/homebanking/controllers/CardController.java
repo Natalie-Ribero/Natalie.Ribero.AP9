@@ -64,9 +64,7 @@ public class CardController {
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
             default:
-                System.out.println("Opción no válida");
-                break;
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return null;
     }
 }
