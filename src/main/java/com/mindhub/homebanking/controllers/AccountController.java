@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -47,9 +48,9 @@ public class AccountController {
             accountRepository.save(account);
             clientAuthentication.addAccount(account);
             clientRepository.save(clientAuthentication);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<Object>("Su cuenta a sido creada",HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<Object>("Hubo un error en la creacion de su cuenta",HttpStatus.FORBIDDEN);
         }
     }
 }

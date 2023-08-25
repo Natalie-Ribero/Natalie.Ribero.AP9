@@ -26,7 +26,7 @@ public class CardController {
     CardRepository cardRepository;
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
-    public ResponseEntity<Object> createCard(@RequestParam CardType type, @RequestParam CardColor color,
+    public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor,
                                            Authentication authentication) {
 
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
@@ -38,33 +38,33 @@ public class CardController {
                 .filter(card -> card.getType() == CardType.CREDIT)
                 .collect(Collectors.toSet());
 
-        switch (type) {
+        switch (cardType) {
             case CREDIT:
                 if (creditCards.size() < 3) {
-                    Card card = new Card(clientAuthentication.toString(), CardType.CREDIT, color,
+                    Card card = new Card(clientAuthentication.toString(), CardType.CREDIT, cardColor,
                             Card.createNumberCard(),
                             Card.createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
                     cardRepository.save(card);
                     clientAuthentication.addCard(card);
                     clientRepository.save(clientAuthentication);
-                    return new ResponseEntity<>(HttpStatus.CREATED);
+                    return new ResponseEntity<Object>("Tarjeta asignada",HttpStatus.CREATED);
                 } else {
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                    return new ResponseEntity<Object>("Ya tiene el maximo permitido de tarjetas de credito",HttpStatus.FORBIDDEN);
                 }
             case DEBIT:
                 if (debitCards.size() < 3) {
-                    Card card = new Card(clientAuthentication.toString(), CardType.DEBIT, color,
+                    Card card = new Card(clientAuthentication.toString(), CardType.DEBIT, cardColor,
                             Card.createNumberCard(),
                             Card.createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
                     cardRepository.save(card);
                     clientAuthentication.addCard(card);
                     clientRepository.save(clientAuthentication);
-                    return new ResponseEntity<>(HttpStatus.CREATED);
+                    return new ResponseEntity<Object>("Tarjeta asignada",HttpStatus.CREATED);
                 } else {
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                    return new ResponseEntity<Object>("Ya tiene el maximo permitido de tarjetas de debito",HttpStatus.FORBIDDEN);
                 }
             default:
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<Object>("La opcion elegida no es valida",HttpStatus.FORBIDDEN);
         }
     }
 }
