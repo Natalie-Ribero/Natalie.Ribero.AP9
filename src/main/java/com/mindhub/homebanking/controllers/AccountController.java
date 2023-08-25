@@ -4,9 +4,11 @@ import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
+import com.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
     @GetMapping("/accounts")
     public List<AccountDTO> getAccount() {
@@ -29,16 +33,23 @@ public class AccountController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/accounts/{id}")
-    public AccountDTO getAccountsById(@PathVariable Long id) {
-        Optional<Account> account = accountRepository.findById(id);
-        return new AccountDTO(account.get());
-    }
+    /* @GetMapping("/accounts/{id}")
+     public AccountDTO getAccountsById(@PathVariable Long id) {
+         Optional<Account> account = accountRepository.findById(id);
+         return new AccountDTO(account.get());
+     }*/
 
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
-
-    public ResponseEntity<Object> addAccount() {
-        accountRepository.save(new Account(Account.createNumberAccount(), LocalDate.now(),0.00));
-        return null;
+    public ResponseEntity<Object> createAccount(Authentication authentication) {
+        Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
+        if (clientAuthentication.getAccounts().size() < 3) {
+            Account account = new Account(Account.createNumberAccount(), LocalDate.now(), 0.00);
+            accountRepository.save(account);
+            clientAuthentication.addAccount(account);
+            clientRepository.save(clientAuthentication);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 }
