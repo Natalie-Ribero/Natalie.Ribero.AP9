@@ -1,6 +1,8 @@
 package com.mindhub.homebanking.models;
 
+import com.mindhub.homebanking.repositories.AccountRepository;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,7 +18,7 @@ public class Account {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="client_id")
+    @JoinColumn(name = "client_id")
     private Client owner;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
@@ -26,7 +28,8 @@ public class Account {
     private LocalDate creationDate;
     private double balance;
 
-    public Account() {}
+    public Account() {
+    }
 
     public Account(String number, LocalDate creationDate, double balance) {
         this.number = number;
@@ -83,13 +86,10 @@ public class Account {
         transactions.add(transaction);
     }
 
+
     public static String createNumberAccount() {
-        //todo: verificar que el numero de cuenta no este repetido
-        Random random = new Random();
-        StringBuilder createString = new StringBuilder();
-        createString.append("VIN-");
-            int numberAccount = random.nextInt(90000000) + 1;
-            createString.append(String.format("%08d", numberAccount));
-        return createString.toString();
+            Random random = new Random();
+            long numberAccount = random.nextInt(90000000) + 1;
+            return "VIN-" + numberAccount;
     }
 }
