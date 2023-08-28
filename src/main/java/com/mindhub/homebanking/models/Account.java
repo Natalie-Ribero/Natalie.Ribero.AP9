@@ -86,10 +86,9 @@ public class Account {
         transactions.add(transaction);
     }
 
-
     public static String createNumberAccount() {
-            Random random = new Random();
-            long numberAccount = random.nextInt(90000000) + 1;
-            return "VIN-" + numberAccount;
+        Random random = new Random();
+        long numberAccount = random.nextInt(90000000) + 1;
+        return "VIN-" + numberAccount;
     }
 }

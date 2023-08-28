@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,6 +40,7 @@ public class AccountController {
          Optional<Account> account = accountRepository.findById(id);
          return new AccountDTO(account.get());
      }*/
+
 
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> createAccount(Authentication authentication) {
