@@ -32,8 +32,6 @@ public class CardController {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Card> cards = clientAuthentication.getCards();
         if (cards.stream().filter(card -> card.getType().equals(cardType)).filter(card -> card.getColor().equals(cardColor)).collect(Collectors.toSet()).isEmpty()) {
-            return new ResponseEntity<Object>("Usted ya tiene una tarjeta de este tipo", HttpStatus.FORBIDDEN);
-        } else {
             Card card = new Card(clientAuthentication.toString(), cardType, cardColor,
                     Card.createNumberCard(),
                     Card.createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
@@ -41,6 +39,8 @@ public class CardController {
             clientAuthentication.addCard(card);
             clientRepository.save(clientAuthentication);
             return new ResponseEntity<Object>("Tarjeta asignada", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<Object>("Usted ya tiene una tarjeta de este tipo", HttpStatus.FORBIDDEN);
         }
     }
 }
