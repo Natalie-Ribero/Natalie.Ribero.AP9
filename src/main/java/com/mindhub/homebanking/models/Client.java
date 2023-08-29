@@ -27,13 +27,16 @@ public class Client {
     private String lastName;
     private String email;
 
+    private String password;
+
     public Client() {
     }
 
-    public Client(String name, String last, String emailClient) {
-        firstName = name;
-        lastName = last;
-        email = emailClient;
+    public Client(String name, String last, String emailClient, String password) {
+        this.firstName = name;
+        this.lastName = last;
+        this.email = emailClient;
+        this.password = password;
     }
 
     public long getId() {
@@ -64,6 +67,10 @@ public class Client {
         return cards;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -86,6 +93,10 @@ public class Client {
 
     public void setCards(Set<Card> cards) {
         this.cards = cards;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
