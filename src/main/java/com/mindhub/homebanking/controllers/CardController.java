@@ -31,42 +31,10 @@ public class CardController {
 
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Card> cards = clientAuthentication.getCards();
-        Set<Card> debitCards = cards.stream()
-                .filter(card -> card.getType() == CardType.DEBIT)
-                .collect(Collectors.toSet());
-        Set<Card> creditCards = cards.stream()
-                .filter(card -> card.getType() == CardType.CREDIT)
-                .collect(Collectors.toSet());
-
-        switch (cardType) {
-            case CREDIT:
-                if (creditCards.size() < 3) {
-                    //todo:Crear una funcion  que cree la tarjeta y tome como parametro el tipo para no repetir lo mismo.
-                    //todo: solo pueden haber 3 tarjetas de cada tipo y una de cada color.
-                    Card card = new Card(clientAuthentication.toString(), CardType.CREDIT, cardColor,
-                            Card.createNumberCard(),
-                            Card.createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
-                    cardRepository.save(card);
-                    clientAuthentication.addCard(card);
-                    clientRepository.save(clientAuthentication);
-                    return new ResponseEntity<Object>("Tarjeta asignada",HttpStatus.CREATED);
-                } else {
-                    return new ResponseEntity<Object>("Ya tiene el maximo permitido de tarjetas de credito",HttpStatus.FORBIDDEN);
-                }
-            case DEBIT:
-                if (debitCards.size() < 3) {
-                    Card card = new Card(clientAuthentication.toString(), CardType.DEBIT, cardColor,
-                            Card.createNumberCard(),
-                            Card.createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
-                    cardRepository.save(card);
-                    clientAuthentication.addCard(card);
-                    clientRepository.save(clientAuthentication);
-                    return new ResponseEntity<Object>("Tarjeta asignada",HttpStatus.CREATED);
-                } else {
-                    return new ResponseEntity<Object>("Ya tiene el maximo permitido de tarjetas de debito",HttpStatus.FORBIDDEN);
-                }
-            default:
-                return new ResponseEntity<Object>("La opcion elegida no es valida",HttpStatus.FORBIDDEN);
+        if (cards.stream().filter(card -> card.getType().equals(cardType)).collect(Collectors.toSet()).isEmpty()) {
+            return new ResponseEntity<Object>("Usted ya tiene una tarjeta de este tipo",HttpStatus.CREATED);
         }
+
+
     }
 }
