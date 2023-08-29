@@ -76,7 +76,6 @@ public class Account {
     public void setOwner(Client owner) {
         this.owner = owner;
     }
-
     public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
     }
