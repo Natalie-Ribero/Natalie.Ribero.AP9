@@ -27,14 +27,22 @@ public class CardController {
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor,
-                                           Authentication authentication) {
+                                             Authentication authentication) {
 
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Card> cards = clientAuthentication.getCards();
-        if (cards.stream().filter(card -> card.getType().equals(cardType)).collect(Collectors.toSet()).isEmpty()) {
-            return new ResponseEntity<Object>("Usted ya tiene una tarjeta de este tipo",HttpStatus.CREATED);
+        if (cards.stream().filter(card -> card.getType().equals(cardType)).filter(card -> card.getColor().equals(cardColor)).collect(Collectors.toSet()).isEmpty()) {
+            return new ResponseEntity<Object>("Usted ya tiene una tarjeta de este tipo", HttpStatus.FORBIDDEN);
+        } else {
+            Card card = new Card(clientAuthentication.toString(), cardType, cardColor,
+                    Card.createNumberCard(),
+                    Card.createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
+            cardRepository.save(card);
+            clientAuthentication.addCard(card);
+            clientRepository.save(clientAuthentication);
+            return new ResponseEntity<Object>("Tarjeta asignada", HttpStatus.CREATED);
         }
-
-
     }
 }
+
+
