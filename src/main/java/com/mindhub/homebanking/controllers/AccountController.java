@@ -35,11 +35,11 @@ public class AccountController {
                 .collect(Collectors.toList());
     }
 
-    /* @GetMapping("/accounts/{id}")
+     @GetMapping("/accounts/{id}")
      public AccountDTO getAccountsById(@PathVariable Long id) {
          Optional<Account> account = accountRepository.findById(id);
          return new AccountDTO(account.get());
-     }*/
+     }
 
 
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)

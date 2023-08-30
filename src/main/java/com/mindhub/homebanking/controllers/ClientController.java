@@ -32,12 +32,12 @@ public class ClientController {
                 .collect(Collectors.toList());
     }
 
-    /*
+
      @GetMapping("/clients/{id}")
       public ClientDTO getClientsById(@PathVariable Long id) {
          return new ClientDTO(clientRepository.findById(id).get());
      }
-    */
+
 
     @Autowired
     AccountRepository accountRepository;
