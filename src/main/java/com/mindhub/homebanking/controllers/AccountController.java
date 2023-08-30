@@ -12,10 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,13 +32,22 @@ public class AccountController {
                 .collect(Collectors.toList());
     }
 
-     @GetMapping("/accounts/{id}")
-     public AccountDTO getAccountsById(@PathVariable Long id) {
-         Optional<Account> account = accountRepository.findById(id);
-         return new AccountDTO(account.get());
-     }
+    @GetMapping("/accounts/{id}")
+    public AccountDTO getAccountsById(@PathVariable Long id) {
+        Optional<Account> account = accountRepository.findById(id);
+        return new AccountDTO(account.get());
+    }
 
-
+    @GetMapping("/clients/current/accounts")
+    public Set<AccountDTO> getAccount(Authentication authentication) {
+        Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
+        Set<Account> accounts = clientAuthentication.getAccounts();
+        return accounts
+                .stream()
+                .map(AccountDTO::new)
+                .collect(Collectors.toSet());
+    }
+    
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> createAccount(Authentication authentication) {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
@@ -50,9 +56,9 @@ public class AccountController {
             accountRepository.save(account);
             clientAuthentication.addAccount(account);
             clientRepository.save(clientAuthentication);
-            return new ResponseEntity<Object>("Su cuenta a sido creada",HttpStatus.CREATED);
+            return new ResponseEntity<Object>("Su cuenta a sido creada", HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<Object>("Hubo un error en la creacion de su cuenta",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<Object>("Hubo un error en la creacion de su cuenta", HttpStatus.FORBIDDEN);
         }
     }
 }
