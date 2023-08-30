@@ -47,7 +47,7 @@ public class AccountController {
                 .map(AccountDTO::new)
                 .collect(Collectors.toSet());
     }
-    
+
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> createAccount(Authentication authentication) {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());

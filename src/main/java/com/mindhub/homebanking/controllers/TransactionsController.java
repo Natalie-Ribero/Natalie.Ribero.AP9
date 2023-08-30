@@ -83,10 +83,11 @@ public class TransactionsController {
         transactionSource.addAccount(accountOr);
         transactionDestination.addAccount(accountDe);
 
-        accountRepository.save(accountOr);
-        accountRepository.save(accountDe);
         transactionRepository.save(transactionSource);
         transactionRepository.save(transactionDestination);
+        accountRepository.save(accountOr);
+        accountRepository.save(accountDe);
+
 
         return new ResponseEntity<Object>("Transaccion realizada", HttpStatus.CREATED);
     }
