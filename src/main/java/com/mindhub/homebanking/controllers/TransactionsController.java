@@ -6,6 +6,7 @@ import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.models.TransactionType;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,10 @@ public class TransactionsController {
     @Autowired
     AccountRepository accountRepository;
 
+    @Autowired
+    TransactionRepository transactionRepository;
+
+
     @Transactional
     @RequestMapping(path = "/transactions", method = RequestMethod.POST)
     public ResponseEntity<Object> transaction(
@@ -37,7 +42,8 @@ public class TransactionsController {
             Authentication authentication) {
 
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
-        Set <Account> accountsClientAuthentication = clientAuthentication.getAccounts();
+        Account accountDe = accountRepository.findByNumber(accountDestination);
+        Account accountOr = accountRepository.findByNumber(accountSource);
 
         if (amount.isNaN() || description.isEmpty() || accountDestination.isEmpty() || accountSource.isEmpty()) {
             return new ResponseEntity<Object>("Verifique de nuevo los datos", HttpStatus.FORBIDDEN);
@@ -46,27 +52,36 @@ public class TransactionsController {
             return new ResponseEntity<Object>("Usted ingreso el mismo numero de cuenta origen y destino",
                     HttpStatus.FORBIDDEN);
         }
-        if (accountRepository.findByNumber(accountSource) == null) {
+        if (accountOr == null) {
             return new ResponseEntity<Object>("La cuenta de origen no existe",
                     HttpStatus.FORBIDDEN);
         }
-        if (((accountRepository.findByNumber(accountSource)).getOwner().getId()) != clientAuthentication.getId()){
+        if ((accountOr.getOwner().getId()) != clientAuthentication.getId()){
             return new ResponseEntity<Object>("La cuenta de origen no le pertenece",
                     HttpStatus.FORBIDDEN);
         }
-        if (accountRepository.findByNumber(accountDestination) == null) {
+        if (accountDe == null) {
             return new ResponseEntity<Object>("La cuenta destino no existe",
                     HttpStatus.FORBIDDEN);
         }
-        if (accountRepository.findByNumber(accountSource).getBalance() >= amount) {
+        if (accountOr.getBalance() >= amount) {
             return new ResponseEntity<Object>("No tiene los fondos suficientes",
                     HttpStatus.FORBIDDEN);
         }
 
-        Transaction transaction1 = new Transaction(TransactionType.DEBIT, amount, description,
+        Transaction transactionSource = new Transaction(TransactionType.DEBIT, amount, description + accountDestination,
                 LocalDate.now());
-        Transaction transaction2 = new Transaction(TransactionType.CREDIT, -amount, description,
+        Transaction transactionDestination = new Transaction(TransactionType.CREDIT, -amount, description + accountSource,
                 LocalDate.now());
+        accountOr.addTransaction(transactionSource);
+        accountDe.addTransaction(transactionDestination);
+        transactionSource.addAccount(accountOr);
+        transactionDestination.addAccount(accountDe);
+
+        accountRepository.save(accountOr);
+        accountRepository.save(accountDe);
+        transactionRepository.save(transactionSource);
+        transactionRepository.save(transactionDestination);
 
         return new ResponseEntity<Object>("Transaccion realizada", HttpStatus.CREATED);
     }
