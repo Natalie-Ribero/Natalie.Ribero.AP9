@@ -41,17 +41,22 @@ public class TransactionsController {
             @RequestParam String accountDestination, @RequestParam String accountSource,
             Authentication authentication) {
 
-        Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
-        Account accountDe = accountRepository.findByNumber(accountDestination);
-        Account accountOr = accountRepository.findByNumber(accountSource);
-
         if (amount.isNaN() || description.isEmpty() || accountDestination.isEmpty() || accountSource.isEmpty()) {
             return new ResponseEntity<Object>("Verifique de nuevo los datos", HttpStatus.FORBIDDEN);
         }
+        if (amount < 1){
+            return new ResponseEntity<Object>("El monto no puede ser menor a 1", HttpStatus.FORBIDDEN);
+        }
+
         if (accountSource.equals(accountDestination)) {
             return new ResponseEntity<Object>("Usted ingreso el mismo numero de cuenta origen y destino",
                     HttpStatus.FORBIDDEN);
         }
+
+        Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
+        Account accountDe = accountRepository.findByNumber(accountDestination);
+        Account accountOr = accountRepository.findByNumber(accountSource);
+
         if (accountOr == null) {
             return new ResponseEntity<Object>("La cuenta de origen no existe",
                     HttpStatus.FORBIDDEN);
