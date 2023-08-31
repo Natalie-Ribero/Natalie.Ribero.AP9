@@ -37,57 +37,60 @@ public class TransactionsController {
     @RequestMapping(path = "/transactions", method = RequestMethod.POST)
     public ResponseEntity<Object> transaction(
 
-            @RequestParam Double amount, @RequestParam String description,
-            @RequestParam String accountDestination, @RequestParam String accountSource,
-            Authentication authentication) {
 
-        if (amount.isNaN() || description.isEmpty() || accountDestination.isEmpty() || accountSource.isEmpty()) {
+            @RequestParam String fromAccountNumber, @RequestParam String toAccountNumber, @RequestParam Double amount,
+            @RequestParam String description, Authentication authentication) {
+
+        if (amount.isNaN() || description.isEmpty() || toAccountNumber.isEmpty() || fromAccountNumber.isEmpty()) {
             return new ResponseEntity<Object>("Verifique de nuevo los datos", HttpStatus.FORBIDDEN);
         }
-        if (amount < 1){
+        if (amount < 1) {
             return new ResponseEntity<Object>("El monto no puede ser menor a 1", HttpStatus.FORBIDDEN);
         }
 
-        if (accountSource.equals(accountDestination)) {
+        if (fromAccountNumber.equals(toAccountNumber)) {
             return new ResponseEntity<Object>("Usted ingreso el mismo numero de cuenta origen y destino",
                     HttpStatus.FORBIDDEN);
         }
 
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
-        Account accountDe = accountRepository.findByNumber(accountDestination);
-        Account accountOr = accountRepository.findByNumber(accountSource);
+        Account accountTo = accountRepository.findByNumber(toAccountNumber);
+        Account accountFrom = accountRepository.findByNumber(fromAccountNumber);
 
-        if (accountOr == null) {
+        if (accountFrom == null) {
             return new ResponseEntity<Object>("La cuenta de origen no existe",
                     HttpStatus.FORBIDDEN);
         }
-        if ((accountOr.getOwner().getId()) != clientAuthentication.getId()){
+        if ((accountFrom.getOwner().getId()) != clientAuthentication.getId()) {
             return new ResponseEntity<Object>("La cuenta de origen no le pertenece",
                     HttpStatus.FORBIDDEN);
         }
-        if (accountDe == null) {
+        if (accountTo == null) {
             return new ResponseEntity<Object>("La cuenta destino no existe",
                     HttpStatus.FORBIDDEN);
         }
-        if (accountOr.getBalance() >= amount) {
+        if (accountFrom.getBalance() <= amount) {
             return new ResponseEntity<Object>("No tiene los fondos suficientes",
                     HttpStatus.FORBIDDEN);
         }
 
-        Transaction transactionSource = new Transaction(TransactionType.DEBIT, amount, description + accountDestination,
+        Transaction transactionSource = new Transaction(TransactionType.DEBIT, -amount, description + " " + toAccountNumber,
                 LocalDate.now());
-        Transaction transactionDestination = new Transaction(TransactionType.CREDIT, -amount, description + accountSource,
+        accountFrom.setBalance((accountFrom.getBalance()) - amount);
+        Transaction transactionDestination = new Transaction(TransactionType.CREDIT, amount,
+                description + " " + fromAccountNumber,
                 LocalDate.now());
-        accountOr.addTransaction(transactionSource);
-        accountDe.addTransaction(transactionDestination);
-        transactionSource.addAccount(accountOr);
-        transactionDestination.addAccount(accountDe);
+        accountTo.setBalance((accountTo.getBalance()) + amount);
 
+        accountFrom.addTransaction(transactionSource);
+        accountTo.addTransaction(transactionDestination);
+        transactionSource.addAccount(accountFrom);
+        transactionDestination.addAccount(accountTo);
+
+        accountRepository.save(accountFrom);
+        accountRepository.save(accountTo);
         transactionRepository.save(transactionSource);
         transactionRepository.save(transactionDestination);
-        accountRepository.save(accountOr);
-        accountRepository.save(accountDe);
-
 
         return new ResponseEntity<Object>("Transaccion realizada", HttpStatus.CREATED);
     }
