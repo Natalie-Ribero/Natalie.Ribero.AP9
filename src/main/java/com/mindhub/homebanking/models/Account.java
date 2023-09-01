@@ -85,17 +85,5 @@ public class Account {
         transaction.setAccount(this);
         transactions.add(transaction);
     }
-    @Autowired
-    public static AccountRepository accountRepository;
-
-    public static String createNumberAccount() {
-        String formatNumberAccount;
-        do {
-            Random random = new Random();
-            long numberAccount = random.nextInt(90000000) + 1;
-            formatNumberAccount = "VIN-" + numberAccount;
-            return formatNumberAccount;
-        } while (accountRepository.existsByNumber(formatNumberAccount));
-    }
 
 }

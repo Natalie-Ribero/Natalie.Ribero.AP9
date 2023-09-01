@@ -19,9 +19,20 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class AccountController {
     @Autowired
-    private AccountRepository accountRepository;
+    private static AccountRepository accountRepository;
     @Autowired
     private ClientRepository clientRepository;
+
+
+    public static String createNumberAccount() {
+        String formatNumberAccount;
+        do {
+            Random random = new Random();
+            long numberAccount = random.nextInt(90000000) + 1;
+            formatNumberAccount = "VIN-" + numberAccount;
+            return formatNumberAccount;
+        } while (accountRepository.existsByNumber(formatNumberAccount));
+    }
 
     @GetMapping("/accounts")
     public List<AccountDTO> getAccount() {
@@ -52,7 +63,7 @@ public class AccountController {
     public ResponseEntity<Object> createAccount(Authentication authentication) {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         if (clientAuthentication.getAccounts().size() < 3) {
-            Account account = new Account(Account.createNumberAccount(), LocalDate.now(), 0.00);
+            Account account = new Account(createNumberAccount(), LocalDate.now(), 0.00);
             accountRepository.save(account);
             clientAuthentication.addAccount(account);
             clientRepository.save(clientAuthentication);

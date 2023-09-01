@@ -59,15 +59,13 @@ public class ClientController {
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
         }
 
-        Account account = new Account(Account.createNumberAccount(), LocalDate.now(),0.00);
+        Account account = new Account(AccountController.createNumberAccount(), LocalDate.now(),0.00);
         accountRepository.save(account);
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
         client.addAccount(account);
         clientRepository.save(client);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
-
-
     }
 
     @RequestMapping(path = "/clients/current")
