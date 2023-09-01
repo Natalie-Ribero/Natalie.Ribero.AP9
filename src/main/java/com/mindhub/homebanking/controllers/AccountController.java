@@ -34,7 +34,8 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{id}")
-    public AccountDTO getAccountsById(@PathVariable Long id) {
+    public AccountDTO getAccountsById(@PathVariable Long id, Authentication authentication) {
+        Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Optional<Account> account = accountRepository.findById(id);
         return new AccountDTO(account.get());
     }
