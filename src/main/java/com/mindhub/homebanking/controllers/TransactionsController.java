@@ -41,7 +41,7 @@ public class TransactionsController {
             @RequestParam String fromAccountNumber, @RequestParam String toAccountNumber, @RequestParam Double amount,
             @RequestParam String description, Authentication authentication) {
 
-        if (amount.isNaN() || description.isEmpty() || toAccountNumber.isEmpty() || fromAccountNumber.isEmpty()) {
+        if (amount.isNaN() || description.isBlank() || toAccountNumber.isBlank() || fromAccountNumber.isBlank()) {
             return new ResponseEntity<Object>("Verifique de nuevo los datos", HttpStatus.FORBIDDEN);
         }
         if (amount < 1) {
