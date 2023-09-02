@@ -18,8 +18,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class AccountController {
+
     @Autowired
     private AccountRepository accountRepository;
+
     @Autowired
     private ClientRepository clientRepository;
 
@@ -34,12 +36,16 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{id}")
-    public AccountDTO getAccountsById(@PathVariable Long id, Authentication authentication) {
+    public ResponseEntity<Object> getAccountsById(@PathVariable Long id, Authentication authentication) {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Account> accounts = clientAuthentication.getAccounts();
-
         Account account = accountRepository.findById(id).orElse(null);
-        return new AccountDTO(account.get());
+        if ((account.getOwner().getId()) != clientAuthentication.getId()){
+            return new ResponseEntity<Object>("La cuenta de origen no le pertenece", HttpStatus.FORBIDDEN);
+        } else {
+            AccountDTO accountDto = new AccountDTO(account);
+            return new ResponseEntity <Object> (accountDto, HttpStatus.ACCEPTED);
+        }
     }
 
     @GetMapping("/clients/current/accounts")
