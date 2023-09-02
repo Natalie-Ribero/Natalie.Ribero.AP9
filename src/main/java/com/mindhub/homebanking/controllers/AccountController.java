@@ -36,7 +36,6 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{id}")
-
     public ResponseEntity<Object> getAccountsById(@PathVariable Long id, Authentication authentication) {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Account> accounts = clientAuthentication.getAccounts();
@@ -50,7 +49,7 @@ public class AccountController {
     }
 
     @GetMapping("/clients/current/accounts")
-    public Set<AccountDTO> getAccount(Authentication authentication) {
+    public Set<AccountDTO> getAccounts(Authentication authentication) {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Account> accounts = clientAuthentication.getAccounts();
         return accounts

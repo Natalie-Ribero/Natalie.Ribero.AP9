@@ -1,5 +1,7 @@
 package com.mindhub.homebanking.controllers;
 
+import com.mindhub.homebanking.dtos.AccountDTO;
+import com.mindhub.homebanking.dtos.CardDTO;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
@@ -7,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Random;
@@ -37,15 +36,26 @@ public class CardController {
                 if (i < 3) {
                     createString.append("-");
                 }
-            }  numberFinalCard = createString.toString();
+            }
+            numberFinalCard = createString.toString();
             return numberFinalCard;
-        } while(cardRepository.existsByNumber(numberFinalCard));
+        } while (cardRepository.existsByNumber(numberFinalCard));
     }
 
     public static String createCvv() {
         Random random = new Random();
         int cvv = random.nextInt(900) + 1;
         return String.format("%03d", cvv);
+    }
+
+    @GetMapping("/clients/current/cards")
+    public Set<CardDTO> getCards(Authentication authentication) {
+        Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
+        Set<Card> cards = clientAuthentication.getCards();
+        return cards
+                .stream()
+                .map(CardDTO::new)
+                .collect(Collectors.toSet());
     }
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
@@ -55,9 +65,7 @@ public class CardController {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Card> cards = clientAuthentication.getCards();
         if (cards.stream().filter(card -> card.getType().equals(cardType)).filter(card -> card.getColor().equals(cardColor)).collect(Collectors.toSet()).isEmpty()) {
-            Card card = new Card(clientAuthentication.toString(), cardType, cardColor,
-                    createNumberCard(),
-                    createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
+            Card card = new Card(clientAuthentication.toString(), cardType, cardColor, createNumberCard(), createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
             cardRepository.save(card);
             clientAuthentication.addCard(card);
             clientRepository.save(clientAuthentication);
