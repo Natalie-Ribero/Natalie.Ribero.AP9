@@ -36,6 +36,7 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{id}")
+
     public ResponseEntity<Object> getAccountsById(@PathVariable Long id, Authentication authentication) {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Account> accounts = clientAuthentication.getAccounts();
