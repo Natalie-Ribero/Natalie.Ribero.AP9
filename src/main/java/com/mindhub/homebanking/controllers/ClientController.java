@@ -24,6 +24,13 @@ public class ClientController {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    AccountRepository accountRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
+
     @GetMapping("/clients")
     public List<ClientDTO> getClients() {
         return clientRepository.findAll()
@@ -32,17 +39,10 @@ public class ClientController {
                 .collect(Collectors.toList());
     }
 
-
      @GetMapping("/clients/{id}")
       public ClientDTO getClientsById(@PathVariable Long id) {
          return new ClientDTO(clientRepository.findById(id).get());
      }
-
-
-    @Autowired
-    AccountRepository accountRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @RequestMapping(path = "/clients", method = RequestMethod.POST)
 
