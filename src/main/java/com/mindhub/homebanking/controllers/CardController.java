@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 public class CardController {
 
     @Autowired
-    ClientRepository clientRepository;
+    private ClientRepository clientRepository;
     @Autowired
-    CardRepository cardRepository;
+    private CardRepository cardRepository;
 
     @GetMapping("/clients/current/cards")
     public Set<CardDTO> getCards(Authentication authentication) {
@@ -40,6 +40,26 @@ public class CardController {
         return String.format("%03d", cvv);
     }
 
+    @Autowired
+    private static CardRepository cardRepository1;
+
+    public static String createNumberCard() {
+        StringBuilder createString = new StringBuilder();
+        String numberFinalCard;
+        do {
+            Random random = new Random();
+            for (int i = 0; i < 4; i++) {
+                int numberCard = random.nextInt(9000) + 1;
+                createString.append(String.format("%04d", numberCard));
+                if (i < 3) {
+                    createString.append("-");
+                }
+            }
+            numberFinalCard = createString.toString();
+            return numberFinalCard;
+        } while (cardRepository1.existsByNumber(numberFinalCard));
+    }
+
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor,
                                              Authentication authentication) {
@@ -47,7 +67,7 @@ public class CardController {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Card> cards = clientAuthentication.getCards();
         if (cards.stream().filter(card -> card.getType().equals(cardType)).filter(card -> card.getColor().equals(cardColor)).collect(Collectors.toSet()).isEmpty()) {
-            Card card = new Card(clientAuthentication.toString(), cardType, cardColor, Card.createNumberCard(), createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
+            Card card = new Card(clientAuthentication.toString(), cardType, cardColor, createNumberCard(), createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
             cardRepository.save(card);
             clientAuthentication.addCard(card);
             clientRepository.save(clientAuthentication);
