@@ -54,11 +54,11 @@ public class HomebankingApplication {
             ClientLoan clientLoan3 = new ClientLoan(24, 100000);
             ClientLoan clientLoan4 = new ClientLoan(36, 200000);
 
-            Card card1 = new Card(client1.toString(), CardType.DEBIT, CardColor.GOLD, CardController.createNumberCard(), CardController.createCvv(),
+            Card card1 = new Card(client1.toString(), CardType.DEBIT, CardColor.GOLD, Card.createNumberCard(), Card.createCvv(),
                     LocalDate.now(), LocalDate.now().plusYears(5));
-            Card card2 = new Card(client1.toString(), CardType.CREDIT, CardColor.TITANIUM, CardController.createNumberCard(), CardController.createCvv(),
+            Card card2 = new Card(client1.toString(), CardType.CREDIT, CardColor.TITANIUM, Card.createNumberCard(), Card.createCvv(),
                     LocalDate.now(), LocalDate.now().plusYears(5));
-            Card card3 = new Card(client2.toString(), CardType.CREDIT, CardColor.SILVER, CardController.createNumberCard(), CardController.createCvv(),
+            Card card3 = new Card(client2.toString(), CardType.CREDIT, CardColor.SILVER, Card.createNumberCard(), Card.createCvv(),
                     LocalDate.now(), LocalDate.now().plusYears(5));
 
             account1.addTransaction(transaction1);
