@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,11 @@ public class CardController {
                 .collect(Collectors.toSet());
     }
 
+    public static String createCvv() {
+        Random random = new Random();
+        int cvv = random.nextInt(900) + 1;
+        return String.format("%03d", cvv);
+    }
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor,
@@ -41,7 +47,7 @@ public class CardController {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Card> cards = clientAuthentication.getCards();
         if (cards.stream().filter(card -> card.getType().equals(cardType)).filter(card -> card.getColor().equals(cardColor)).collect(Collectors.toSet()).isEmpty()) {
-            Card card = new Card(clientAuthentication.toString(), cardType, cardColor, Card.createNumberCard(), Card.createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
+            Card card = new Card(clientAuthentication.toString(), cardType, cardColor, Card.createNumberCard(), createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
             cardRepository.save(card);
             clientAuthentication.addCard(card);
             clientRepository.save(clientAuthentication);

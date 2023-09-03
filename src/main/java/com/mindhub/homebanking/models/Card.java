@@ -111,7 +111,7 @@ public class Card {
     }
 
     @Autowired
-    public static CardRepository cardRepository;
+    public static CardRepository cardRepository1;
 
     public static String createNumberCard() {
         StringBuilder createString = new StringBuilder();
@@ -127,14 +127,7 @@ public class Card {
             }
             numberFinalCard = createString.toString();
             return numberFinalCard;
-        } while (cardRepository.existsByNumber(numberFinalCard));
+        } while (cardRepository1.existsByNumber(numberFinalCard));
     }
-
-    public static String createCvv() {
-        Random random = new Random();
-        int cvv = random.nextInt(900) + 1;
-        return String.format("%03d", cvv);
-    }
-
 
 }
