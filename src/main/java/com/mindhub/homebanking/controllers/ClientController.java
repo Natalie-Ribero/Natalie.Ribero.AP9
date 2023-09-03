@@ -25,7 +25,7 @@ public class ClientController {
     private ClientRepository clientRepository;
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 

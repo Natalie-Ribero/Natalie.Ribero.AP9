@@ -24,13 +24,13 @@ import java.util.Set;
 @RequestMapping("/api")
 public class TransactionsController {
     @Autowired
-    ClientRepository clientRepository;
+    private ClientRepository clientRepository;
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    TransactionRepository transactionRepository;
+    private TransactionRepository transactionRepository;
 
 
     @Transactional
