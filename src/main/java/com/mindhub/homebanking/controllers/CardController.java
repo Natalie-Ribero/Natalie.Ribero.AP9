@@ -4,6 +4,7 @@ import com.mindhub.homebanking.dtos.CardDTO;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +21,12 @@ import java.util.stream.Collectors;
 public class CardController {
 
     @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
-    private CardRepository cardRepository;
+    CardService cardService;
+
 
     @GetMapping("/clients/current/cards")
     public Set<CardDTO> getCards(Authentication authentication) {
-        Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
-        Set<Card> cards = clientAuthentication.getCards();
-        return cards
-                .stream()
-                .map(CardDTO::new)
-                .collect(Collectors.toSet());
+        return cardService.getCards(authentication);
     }
 
     public static String createCvv() {
@@ -42,6 +37,7 @@ public class CardController {
 
     @Autowired
     private static CardRepository cardRepository1;
+
 
     public static String createNumberCard() {
         StringBuilder createString = new StringBuilder();
@@ -63,18 +59,7 @@ public class CardController {
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor,
                                              Authentication authentication) {
-
-        Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
-        Set<Card> cards = clientAuthentication.getCards();
-        if (cards.stream().filter(card -> card.getType().equals(cardType)).filter(card -> card.getColor().equals(cardColor)).collect(Collectors.toSet()).isEmpty()) {
-            Card card = new Card(clientAuthentication.toString(), cardType, cardColor, createNumberCard(), createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
-            cardRepository.save(card);
-            clientAuthentication.addCard(card);
-            clientRepository.save(clientAuthentication);
-            return new ResponseEntity<Object>("Tarjeta asignada", HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<Object>("Usted ya tiene una tarjeta de este tipo", HttpStatus.FORBIDDEN);
-        }
+        return cardService.createCard(cardType, cardColor, authentication);
     }
 }
 
