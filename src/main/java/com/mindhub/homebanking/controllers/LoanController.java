@@ -1,4 +1,4 @@
-package com.mindhub.homebanking.controllers;
+/*package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.dtos.LoanDTO;
 import com.mindhub.homebanking.models.Client;
@@ -70,7 +70,7 @@ public class LoanController {
                     "prestamos",
                     HttpStatus.FORBIDDEN);
         }
-        //todo: solicitud de préstamo creado al cliente autenticado
+
         ClientLoan clientLoan = new ClientLoan();
         Transaction transaction = new Transaction();
         account.addTransaction(transaction);
@@ -78,8 +78,9 @@ public class LoanController {
         loan.addClient(clientLoan);
         clientLoanRepository.save(clientLoan);
         transactionRepository.save(transaction);
+        //todo: solicitud de préstamo creado al cliente autenticado
         //todo:transacción creada para cuenta de destino
         //todo:cuenta de destino actualizada con el monto
 
     }
-}
+}*/
