@@ -20,11 +20,11 @@ public class ClientLoan {
     private Loan loan;
 
     private int payments;
-    private int amount;
+    private double amount;
 
     public ClientLoan() {}
 
-    public ClientLoan(int payments, int amount) {
+    public ClientLoan(int payments, double amount) {
         this.payments = payments;
         this.amount = amount;
     }
@@ -37,7 +37,7 @@ public class ClientLoan {
         return payments;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -57,7 +57,7 @@ public class ClientLoan {
         this.payments = payments;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

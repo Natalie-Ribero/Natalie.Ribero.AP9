@@ -48,6 +48,9 @@ public class AccountServiceImplement implements AccountService {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Account> accounts = clientAuthentication.getAccounts();
         Account account = accountRepository.findById(id).orElse(null);
+        if (account == null){
+            return new ResponseEntity<Object>("la cuenta no existe", HttpStatus.FORBIDDEN);
+        }
         if ((account.getOwner().getId()) != clientAuthentication.getId()){
             return new ResponseEntity<Object>("La cuenta de origen no le pertenece", HttpStatus.FORBIDDEN);
         } else {

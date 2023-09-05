@@ -1,10 +1,8 @@
-/*package com.mindhub.homebanking.controllers;
+package com.mindhub.homebanking.controllers;
 
+import com.mindhub.homebanking.dtos.LoanApplicationDTO;
 import com.mindhub.homebanking.dtos.LoanDTO;
-import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.models.ClientLoan;
-import com.mindhub.homebanking.models.Loan;
-import com.mindhub.homebanking.models.Transaction;
+import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,46 +41,52 @@ public class LoanController {
 
     @Transactional
     @RequestMapping(path = "/loans", method = RequestMethod.POST)
-    public ResponseEntity<Object> applyLoans(@RequestBody Loan loan, Authentication authentication) {
+    public ResponseEntity<Object> applyLoans(@RequestBody LoanApplicationDTO loanApplicationDTO, Authentication authentication) {
 
-        Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
-
-        if () {
+        if (loanApplicationDTO.getLoanId() == null || loanApplicationDTO.getAmount() <= 0 || loanApplicationDTO.getPayments() <= 0 || loanApplicationDTO.getToAccountNumber().isEmpty()) {
             return new ResponseEntity<Object>("Verifique los datos",
                     HttpStatus.FORBIDDEN);
         }
-        if () {
+
+        if (!accountRepository.existsByNumber(loanApplicationDTO.getToAccountNumber())) {
             return new ResponseEntity<Object>("La cuenta de destino no existe",
                     HttpStatus.FORBIDDEN);
         }
-        if () {
+
+        Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
+        Account account = accountRepository.findByNumber(loanApplicationDTO.getToAccountNumber());
+
+        if (!Objects.equals(account.getOwner().getEmail(), clientAuthentication.getEmail())) {
             return new ResponseEntity<Object>("La cuenta destino no le pertenece",
                     HttpStatus.FORBIDDEN);
         }
-        if () {
+
+        Loan loan = loanRepository.findById(loanApplicationDTO.getLoanId()).orElse(null);
+
+        if (loan == null) {
             return new ResponseEntity<Object>("el prestamo solicitado no existe",
                     HttpStatus.FORBIDDEN);
         }
-        if () {
+        if (loanApplicationDTO.getAmount() > loan.getMaxAmount()) {
             return new ResponseEntity<Object>("El monto solicitado es mayor al permitido para este tipo de prestamos",
                     HttpStatus.FORBIDDEN);
         }
-        if () {
+        if (!(loan.getPayments().contains(loanApplicationDTO.getPayments()))){
             return new ResponseEntity<Object>("Las cuotas seleccionadas no estan disponibles para este tipo de " +
                     "prestamos",
                     HttpStatus.FORBIDDEN);
         }
 
-        ClientLoan clientLoan = new ClientLoan();
-        Transaction transaction = new Transaction();
+        ClientLoan clientLoan = new ClientLoan(loanApplicationDTO.getPayments(),(loanApplicationDTO.getAmount() * 0.20));
+        clientLoan.addLoanAndClient(loan,clientAuthentication);
+        Transaction transaction = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(), loan.getName() + " loan approved",
+                LocalDate.now());
+        transaction.addAccount(account);
         account.addTransaction(transaction);
-        client.addLoan(clientLoan);
-        loan.addClient(clientLoan);
+        account.setBalance(account.getBalance() + loanApplicationDTO.getAmount());
         clientLoanRepository.save(clientLoan);
         transactionRepository.save(transaction);
-        //todo: solicitud de préstamo creado al cliente autenticado
-        //todo:transacción creada para cuenta de destino
-        //todo:cuenta de destino actualizada con el monto
-
+        accountRepository.save(account);
+        return new ResponseEntity<Object> ("Prestamo solicitado corectamente", HttpStatus.ACCEPTED);
     }
-}*/
+}
