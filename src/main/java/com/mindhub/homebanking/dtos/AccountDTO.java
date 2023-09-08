@@ -13,7 +13,7 @@ public class AccountDTO {
     private String number;
     private LocalDate creationDate;
     private double balance;
-    Set<TransactionDTO> transactions = new HashSet<>();
+    private Set<TransactionDTO> transactions = new HashSet<>();
 
     public AccountDTO(Account account) {
         this.id = account.getId();
@@ -23,7 +23,7 @@ public class AccountDTO {
         this.transactions = account
                 .getTransactions()
                 .stream()
-                .map(transaction -> new TransactionDTO(transaction))
+                .map(TransactionDTO::new)
                 .collect(Collectors.toSet());
     }
 

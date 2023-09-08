@@ -49,10 +49,10 @@ public class AccountServiceImplement implements AccountService {
         Set<Account> accounts = clientAuthentication.getAccounts();
         Account account = accountRepository.findById(id).orElse(null);
         if (account == null){
-            return new ResponseEntity<Object>("la cuenta no existe", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<Object>("Account does not exist", HttpStatus.FORBIDDEN);
         }
         if ((account.getOwner().getId()) != clientAuthentication.getId()){
-            return new ResponseEntity<Object>("La cuenta de origen no le pertenece", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<Object>("The source account does not belong to you", HttpStatus.FORBIDDEN);
         } else {
             AccountDTO accountDto = new AccountDTO(account);
             return new ResponseEntity <Object> (accountDto, HttpStatus.ACCEPTED);
@@ -67,9 +67,9 @@ public class AccountServiceImplement implements AccountService {
             accountRepository.save(account);
             clientAuthentication.addAccount(account);
             clientRepository.save(clientAuthentication);
-            return new ResponseEntity<Object>("Su cuenta a sido creada", HttpStatus.CREATED);
+            return new ResponseEntity<Object>("Your account has been created", HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<Object>("Hubo un error en la creacion de su cuenta", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<Object>("There was an error creating your account", HttpStatus.FORBIDDEN);
         }
     }
 

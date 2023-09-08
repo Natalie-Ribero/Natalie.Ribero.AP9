@@ -30,14 +30,14 @@ public class TransactionServiceImplement implements TransactionService {
     @Override
     public ResponseEntity<Object> transaction(String fromAccountNumber, String toAccountNumber, Double amount, String description, Authentication authentication) {
         if (amount.isNaN() || description.isBlank() || toAccountNumber.isBlank() || fromAccountNumber.isBlank()) {
-            return new ResponseEntity<Object>("Verifique de nuevo los datos", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<Object>("Double-check the data", HttpStatus.FORBIDDEN);
         }
         if (amount < 1) {
-            return new ResponseEntity<Object>("El monto no puede ser menor a 1", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<Object>("The amount cannot be less than 1", HttpStatus.FORBIDDEN);
         }
 
         if (fromAccountNumber.equals(toAccountNumber)) {
-            return new ResponseEntity<Object>("Usted ingreso el mismo numero de cuenta origen y destino",
+            return new ResponseEntity<Object>("You enter the same account number origin and destination",
                     HttpStatus.FORBIDDEN);
         }
 
@@ -46,19 +46,19 @@ public class TransactionServiceImplement implements TransactionService {
         Account accountFrom = accountRepository.findByNumber(fromAccountNumber);
 
         if (accountFrom == null) {
-            return new ResponseEntity<Object>("La cuenta de origen no existe",
+            return new ResponseEntity<Object>("Source account does not exist",
                     HttpStatus.FORBIDDEN);
         }
         if ((accountFrom.getOwner().getId()) != clientAuthentication.getId()) {
-            return new ResponseEntity<Object>("La cuenta de origen no le pertenece",
+            return new ResponseEntity<Object>("The source account does not belong to you",
                     HttpStatus.FORBIDDEN);
         }
         if (accountTo == null) {
-            return new ResponseEntity<Object>("La cuenta destino no existe",
+            return new ResponseEntity<Object>("Destination account does not exist",
                     HttpStatus.FORBIDDEN);
         }
         if (accountFrom.getBalance() <= amount) {
-            return new ResponseEntity<Object>("No tiene los fondos suficientes",
+            return new ResponseEntity<Object>("Not enough funds",
                     HttpStatus.FORBIDDEN);
         }
 
@@ -80,6 +80,6 @@ public class TransactionServiceImplement implements TransactionService {
         transactionRepository.save(transactionSource);
         transactionRepository.save(transactionDestination);
 
-        return new ResponseEntity<Object>("Transaccion realizada", HttpStatus.CREATED);
+        return new ResponseEntity<Object>("Transaction completed", HttpStatus.CREATED);
     }
 }

@@ -16,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,9 +46,9 @@ public class CardServiceImplement implements CardService {
             cardRepository.save(card);
             clientAuthentication.addCard(card);
             clientRepository.save(clientAuthentication);
-            return new ResponseEntity<Object>("Tarjeta asignada", HttpStatus.CREATED);
+            return new ResponseEntity<Object>("Card assigned", HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<Object>("Usted ya tiene una tarjeta de este tipo", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<Object>("You already have such a card", HttpStatus.FORBIDDEN);
         }
     }
 
