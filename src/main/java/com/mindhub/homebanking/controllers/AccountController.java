@@ -31,7 +31,7 @@ public class AccountController {
         return accountService.getAccounts(authentication);
     }
 
-    @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
+    @PostMapping("/clients/current/accounts")
     public ResponseEntity<Object> createAccount(Authentication authentication) {
         return accountService.createAccount(authentication);
     }

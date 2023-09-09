@@ -36,14 +36,14 @@ public class ClientController {
         return clientService.getClientsById(id);
     }
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST)
+    @PostMapping("/clients")
     public ResponseEntity<Object> register(
             @RequestParam String firstName, @RequestParam String lastName,
             @RequestParam String email, @RequestParam String password) {
         return clientService.register(firstName, lastName, email, password);
     }
 
-    @RequestMapping(path = "/clients/current")
+    @GetMapping("/clients/current")
     public ClientDTO getClientByEmail(Authentication authentication) {
         return clientService.getClientByEmail(authentication);
     }

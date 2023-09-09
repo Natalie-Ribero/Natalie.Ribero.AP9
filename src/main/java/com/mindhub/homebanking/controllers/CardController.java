@@ -54,7 +54,7 @@ public class CardController {
         } while (cardRepository1.existsByNumber(numberFinalCard));
     }
 
-    @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
+    @PostMapping("/clients/current/cards")
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor,
                                              Authentication authentication) {
         return cardService.createCard(cardType, cardColor, authentication);

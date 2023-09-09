@@ -26,7 +26,7 @@ public class LoanController {
     }
 
     @Transactional
-    @RequestMapping(path = "/loans", method = RequestMethod.POST)
+    @PostMapping("/loans")
     public ResponseEntity<Object> applyLoans(@RequestBody LoanApplicationDTO loanApplicationDTO,
                                              Authentication authentication) {
 
