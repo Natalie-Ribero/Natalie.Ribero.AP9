@@ -109,6 +109,4 @@ public class Card {
     public void setCardOwner(Client cardOwner) {
         this.cardOwner = cardOwner;
     }
-
-
 }

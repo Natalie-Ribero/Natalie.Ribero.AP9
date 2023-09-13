@@ -9,6 +9,7 @@ import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.CardService;
+import com.mindhub.homebanking.utils.CardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,8 +42,8 @@ public class CardServiceImplement implements CardService {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         Set<Card> cards = clientAuthentication.getCards();
         if (cards.stream().filter(card -> card.getType().equals(cardType)).filter(card -> card.getColor().equals(cardColor)).collect(Collectors.toSet()).isEmpty()) {
-            Card card = new Card(clientAuthentication.toString(), cardType, cardColor, CardController.createNumberCard(),
-                    CardController.createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
+            Card card = new Card(clientAuthentication.toString(), cardType, cardColor, CardUtils.createNumberCard(),
+                    CardUtils.createCvv(), LocalDate.now(), LocalDate.now().plusYears(5));
             cardRepository.save(card);
             clientAuthentication.addCard(card);
             clientRepository.save(clientAuthentication);
