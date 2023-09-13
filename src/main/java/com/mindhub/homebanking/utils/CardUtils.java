@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
-public class CardUtils {
+public final class CardUtils {
+    public CardUtils() {}
+
     public static String createCvv() {
         Random random = new Random();
         int cvv = random.nextInt(900) + 1;

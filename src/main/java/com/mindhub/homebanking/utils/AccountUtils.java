@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
-public class AccountUtils {
+public final class AccountUtils {
+    private AccountUtils() {}
+
     @Autowired
     static AccountRepository accountRepository;
 
