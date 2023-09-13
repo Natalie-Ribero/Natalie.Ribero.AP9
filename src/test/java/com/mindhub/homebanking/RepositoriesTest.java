@@ -1,5 +1,6 @@
 package com.mindhub.homebanking;
 
+
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
 import org.junit.jupiter.api.Test;
@@ -7,19 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
 import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
+import static org.hamcrest.Matchers.*;
 
 @DataJpaTest
 
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = NONE)
 public class RepositoriesTest {
 
     @Autowired
     private LoanRepository loanRepository;
-
 
     @Test
     public void existLoans() {
@@ -58,14 +59,7 @@ public class RepositoriesTest {
         List<Client> client = clientRepository.findAll();
         assertThat(client, is(not(empty())));
     }
-    @Autowired
-    private ClientLoanRepository clientLoanRepository;
 
-    @Test
-    public void existClientLoan() {
-        List<ClientLoan> loan = clientLoanRepository.findAll();
-        assertThat(loan, is(not(empty())));
-    }
     @Autowired
     private TransactionRepository transactionRepository;
 

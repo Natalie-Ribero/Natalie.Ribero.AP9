@@ -6,6 +6,7 @@ import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.utils.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +64,7 @@ public class AccountServiceImplement implements AccountService {
     public ResponseEntity<Object> createAccount(Authentication authentication) {
         Client clientAuthentication = clientRepository.findByEmail(authentication.getName());
         if (clientAuthentication.getAccounts().size() < 3) {
-            Account account = new Account(Account.createNumberAccount(), LocalDate.now(), 0.00);
+            Account account = new Account(AccountUtils.createNumberAccount(), LocalDate.now(), 0.00);
             accountRepository.save(account);
             clientAuthentication.addAccount(account);
             clientRepository.save(clientAuthentication);
