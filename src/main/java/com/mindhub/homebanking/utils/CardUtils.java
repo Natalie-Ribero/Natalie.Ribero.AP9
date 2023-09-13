@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Random;
 
 public final class CardUtils {
-    public CardUtils() {}
+    private CardUtils() {}
 
     public static String createCvv() {
         Random random = new Random();
@@ -16,7 +16,6 @@ public final class CardUtils {
 
     @Autowired
     private static CardRepository cardRepository1;
-
 
     public static String createNumberCard() {
         StringBuilder createString = new StringBuilder();
