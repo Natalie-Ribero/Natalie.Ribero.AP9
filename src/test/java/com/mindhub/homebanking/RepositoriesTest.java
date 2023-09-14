@@ -42,6 +42,11 @@ public class RepositoriesTest {
         List<Account> account = accountRepository.findAll();
         assertThat(account, is(not(empty())));
     }
+    @Test
+    public void existAccount() {
+        List<Account> account = accountRepository.findAll();
+        assertThat(account, is(not(empty())));
+    }
 
     @Autowired
     private CardRepository cardRepository;
@@ -51,13 +56,35 @@ public class RepositoriesTest {
         List<Card> cards = cardRepository.findAll();
         assertThat(cards, is(not(empty())));
     }
+
+    @Test
+    public void haveMoreThreeCards(){
+        List<Client> clients = clientRepository.findAll();
+        for (Client client : clients){
+            assertThat(client.getCards(), hasSize(lessThanOrEqualTo(3)));
+        }
+    }
     @Autowired
     private ClientRepository clientRepository;
 
     @Test
     public void existClient() {
-        List<Client> client = clientRepository.findAll();
-        assertThat(client, is(not(empty())));
+        List<Client> clients = clientRepository.findAll();
+        assertThat(clients, is(not(empty())));
+    }
+
+    @Test
+    public void haveMoreThreeAccounts(){
+        List<Client> clients = clientRepository.findAll();
+        for (Client client : clients){
+            assertThat(client.getAccounts(), hasSize(lessThanOrEqualTo(3)));
+        }
+    }
+
+    @Test
+    public void existClientMelba() {
+        List<Client> clients = clientRepository.findAll();
+        assertThat(clients, hasItem(hasProperty("firstName", is("Melba"))));
     }
 
     @Autowired

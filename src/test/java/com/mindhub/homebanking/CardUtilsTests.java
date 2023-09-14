@@ -22,4 +22,5 @@ public class CardUtilsTests {
         String cardNumber = CardUtils.createCvv();
         assertThat(cardNumber,is(not(emptyOrNullString())));
     }
+
 }
