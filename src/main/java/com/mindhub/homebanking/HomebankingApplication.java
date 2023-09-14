@@ -1,5 +1,6 @@
 package com.mindhub.homebanking;
 
+import com.mindhub.homebanking.controllers.AccountController;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,26 +32,26 @@ public class HomebankingApplication {
             Client client2 = new Client("Susana", "Guerrero", "sguerrero@mindhub.com", passwordEncoder.encode("SusanaGuerrero"));
             Client client3 = new Client("Natalie", "Ribero", "natalie.ribero@hotmail.com", passwordEncoder.encode("ADMIN"));
 
-            Account account1 = new Account("VIN001", LocalDate.now(), 5000);
-            Account account2 = new Account("VIN002", LocalDate.now().plusDays(1), 7500);
-            Account account3 = new Account("VIN003", LocalDate.now(), 8500);
-            Account account4 = new Account("VIN004", LocalDate.now(), 850000);
+            Account account1 = new Account(Account.createNumberAccount(), LocalDate.now(), 5000);
+            Account account2 = new Account(Account.createNumberAccount(), LocalDate.now().plusDays(1), 7500);
+            Account account3 = new Account(Account.createNumberAccount(), LocalDate.now(), 8500);
+            Account account4 = new Account(Account.createNumberAccount(), LocalDate.now(), 850000);
 
-            Transaction transaction1 = new Transaction(account1, TransactionType.CREDIT, 5000.00, "ALQUILER",
+            Transaction transaction1 = new Transaction(TransactionType.CREDIT, 5000.00, "ALQUILER",
                     LocalDate.now());
-            Transaction transaction2 = new Transaction(account2, TransactionType.DEBIT, -52000.00, "Pago hipoteca",
+            Transaction transaction2 = new Transaction(TransactionType.DEBIT, -52000.00, "Pago hipoteca",
                     LocalDate.now());
-            Transaction transaction3 = new Transaction(account3, TransactionType.CREDIT, 2000.00, "salario",
+            Transaction transaction3 = new Transaction(TransactionType.CREDIT, 2000.00, "salario",
                     LocalDate.now());
 
             Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
             Loan loan2 = new Loan("Personal", 100000, List.of(6, 12, 24));
             Loan loan3 = new Loan("Automotriz", 300000, List.of(6, 12, 24, 36));
 
-            ClientLoan clientLoan1 = new ClientLoan(client1, loan1, 60, 400000);
-            ClientLoan clientLoan2 = new ClientLoan(client1, loan2, 12, 50000);
-            ClientLoan clientLoan3 = new ClientLoan(client2, loan2, 24, 100000);
-            ClientLoan clientLoan4 = new ClientLoan(client2, loan3, 36, 200000);
+            ClientLoan clientLoan1 = new ClientLoan(60, 400000);
+            ClientLoan clientLoan2 = new ClientLoan(12, 50000);
+            ClientLoan clientLoan3 = new ClientLoan(24, 100000);
+            ClientLoan clientLoan4 = new ClientLoan(36, 200000);
 
             Card card1 = new Card(client1.toString(), CardType.DEBIT, CardColor.GOLD, Card.createNumberCard(), Card.createCvv(),
                     LocalDate.now(), LocalDate.now().plusYears(5));
@@ -62,6 +63,10 @@ public class HomebankingApplication {
             account1.addTransaction(transaction1);
             account2.addTransaction(transaction2);
             account3.addTransaction(transaction3);
+
+            transaction1.addAccount(account1);
+            transaction2.addAccount(account2);
+            transaction3.addAccount(account3);
 
             client1.addAccount(account1);
             client1.addAccount(account2);
@@ -77,6 +82,11 @@ public class HomebankingApplication {
             loan2.addClient(clientLoan2);
             loan2.addClient(clientLoan3);
             loan3.addClient(clientLoan4);
+
+            clientLoan1.addLoanAndClient(loan1,client1);
+            clientLoan2.addLoanAndClient(loan2,client1);
+            clientLoan3.addLoanAndClient(loan2,client2);
+            clientLoan4.addLoanAndClient(loan3,client2);
 
             client1.addCard(card1);
             client1.addCard(card2);

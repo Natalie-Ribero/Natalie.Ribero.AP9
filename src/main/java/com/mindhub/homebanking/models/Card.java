@@ -1,6 +1,9 @@
 package com.mindhub.homebanking.models;
 
+import com.mindhub.homebanking.repositories.AccountRepository;
+import com.mindhub.homebanking.repositories.CardRepository;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -113,18 +116,22 @@ public class Card {
         return String.format("%03d", cvv);
     }
 
+    @Autowired
+    public static CardRepository cardRepository;
+
     public static String createNumberCard() {
-        Random random = new Random();
         StringBuilder createString = new StringBuilder();
-
-        for (int i = 0; i < 4; i++) {
-            int numberCard = random.nextInt(9000) + 1;
-            createString.append(String.format("%04d", numberCard));
-            if (i < 3) {
-                createString.append("-");
-            }
-        }
-        return createString.toString();
+        String numberFinalCard;
+        do {
+            Random random = new Random();
+            for (int i = 0; i < 4; i++) {
+                int numberCard = random.nextInt(9000) + 1;
+                createString.append(String.format("%04d", numberCard));
+                if (i < 3) {
+                    createString.append("-");
+                }
+            }  numberFinalCard = createString.toString();
+            return numberFinalCard;
+        } while(cardRepository.existsByNumber(numberFinalCard));
     }
-
 }

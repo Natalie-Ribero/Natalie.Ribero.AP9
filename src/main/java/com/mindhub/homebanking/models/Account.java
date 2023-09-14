@@ -1,10 +1,13 @@
 package com.mindhub.homebanking.models;
 
+import com.mindhub.homebanking.repositories.AccountRepository;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 @Entity
@@ -15,7 +18,7 @@ public class Account {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="client_id")
+    @JoinColumn(name = "client_id")
     private Client owner;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
@@ -25,7 +28,8 @@ public class Account {
     private LocalDate creationDate;
     private double balance;
 
-    public Account() {}
+    public Account() {
+    }
 
     public Account(String number, LocalDate creationDate, double balance) {
         this.number = number;
@@ -57,6 +61,7 @@ public class Account {
         return transactions;
     }
 
+
     public void setNumber(String number) {
         this.number = number;
     }
@@ -72,7 +77,6 @@ public class Account {
     public void setOwner(Client owner) {
         this.owner = owner;
     }
-
     public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
     }
@@ -81,4 +85,17 @@ public class Account {
         transaction.setAccount(this);
         transactions.add(transaction);
     }
+    @Autowired
+    public static AccountRepository accountRepository;
+
+    public static String createNumberAccount() {
+        String formatNumberAccount;
+        do {
+            Random random = new Random();
+            long numberAccount = random.nextInt(90000000) + 1;
+            formatNumberAccount = "VIN-" + numberAccount;
+            return formatNumberAccount;
+        } while (accountRepository.existsByNumber(formatNumberAccount));
+    }
+
 }
