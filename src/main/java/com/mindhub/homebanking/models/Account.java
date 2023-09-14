@@ -85,8 +85,9 @@ public class Account {
         transaction.setAccount(this);
         transactions.add(transaction);
     }
+
     @Autowired
-    public static AccountRepository accountRepository;
+    static AccountRepository accountRepository;
 
     public static String createNumberAccount() {
         String formatNumberAccount;

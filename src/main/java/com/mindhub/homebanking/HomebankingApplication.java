@@ -1,6 +1,7 @@
 package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.controllers.AccountController;
+import com.mindhub.homebanking.controllers.CardController;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,14 @@ import java.util.List;
 @SpringBootApplication
 public class HomebankingApplication {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    /*@Autowired
+    private PasswordEncoder passwordEncoder;*/
 
     public static void main(String[] args) {
         SpringApplication.run(HomebankingApplication.class, args);
     }
 
-    @Bean
+   /* @Bean
     public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository,
                                       TransactionRepository transactionRepository, LoanRepository loanRepository,
                                       ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
@@ -53,11 +54,11 @@ public class HomebankingApplication {
             ClientLoan clientLoan3 = new ClientLoan(24, 100000);
             ClientLoan clientLoan4 = new ClientLoan(36, 200000);
 
-            Card card1 = new Card(client1.toString(), CardType.DEBIT, CardColor.GOLD, Card.createNumberCard(), Card.createCvv(),
+            Card card1 = new Card(client1.toString(), CardType.DEBIT, CardColor.GOLD, CardController.createNumberCard(), CardController.createCvv(),
                     LocalDate.now(), LocalDate.now().plusYears(5));
-            Card card2 = new Card(client1.toString(), CardType.CREDIT, CardColor.TITANIUM, Card.createNumberCard(), Card.createCvv(),
+            Card card2 = new Card(client1.toString(), CardType.CREDIT, CardColor.TITANIUM, CardController.createNumberCard(), CardController.createCvv(),
                     LocalDate.now(), LocalDate.now().plusYears(5));
-            Card card3 = new Card(client2.toString(), CardType.CREDIT, CardColor.SILVER, Card.createNumberCard(), Card.createCvv(),
+            Card card3 = new Card(client2.toString(), CardType.CREDIT, CardColor.SILVER, CardController.createNumberCard(), CardController.createCvv(),
                     LocalDate.now(), LocalDate.now().plusYears(5));
 
             account1.addTransaction(transaction1);
@@ -119,7 +120,7 @@ public class HomebankingApplication {
             cardRepository.save(card3);
 
         };
-    }
+    } */
 
 
 }

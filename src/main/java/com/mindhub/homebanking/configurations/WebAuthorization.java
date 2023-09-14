@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
@@ -24,8 +23,7 @@ public class WebAuthorization {
                 .antMatchers("/web/css/**", "/web/img/**", "/web/js/**", "/web/index.html").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/logout","/api/login", "/api/clients").permitAll()
                 .antMatchers("/rest/**", "/h2-console").hasAuthority("ADMIN")
-                .antMatchers("/web/**", "/api/clients/current", "/api/clients/current/accounts", "/api/clients/current/cards", "/api/clients/accounts/{id}", "api/transactions").hasAnyAuthority("CLIENT", "ADMIN");
-
+                .antMatchers("/web/**", "/api/clients/current", "/api/clients/current/accounts", "/api/clients/current/cards", "/api/clients/accounts/{id}", "/api/transactions", "/api/loans").hasAnyAuthority("CLIENT", "ADMIN");
 
         http.formLogin()
                 .usernameParameter("email")
